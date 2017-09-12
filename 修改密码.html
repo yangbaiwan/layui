@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>E-Bank Service 商户管理平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="layui/css/layui.css" />
+	<link rel="stylesheet" href="css/admin.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="css/admin.mobile.css">
+</head>
+
+<body>
+
+
+	<!-- 布局容器 -->
+	<div class="layui-layout layui-layout-admin">
+		<!-- 头部 -->
+
+
+		<div id="header">
+			<header-component></header-component>
+		</div>
+
+
+		<!-- 遮罩层 -->
+		<div class="masked"></div>
+
+
+		<!-- 左侧菜单 -->
+		<div id="leftSlide">
+			<leftslide-component></leftslide-component>
+		</div>
+
+
+		<!-- 主体 -->
+		<div class="layui-body">
+			<!-- 主要内容 -->
+			<div class="container">
+				<form class="layui-form" action="">
+					<table class="layui-table layui-table-add layui-table-detail" lay-skin="nob">
+						<tbody>
+							<tr>
+								<th>旧密码</th>
+								<td>
+									<div class="table-input">
+										<input type="text" name="" placeholder="请输入旧密码" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>新密码</th>
+								<td>
+									<div class="table-input">
+										<input type="text" name="" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>确认密码</th>
+								<td>
+									<div class="table-input">
+										<input type="text" name="" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="layui-table-btn2 ">
+						<a class="layui-btn" href="首页.html">确 定</a>
+						<a class="layui-btn layui-btn-primary cancel" onclick="window.history.back()">取 消</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	<!-- 可不引入 -->
+	<script type="text/javascript" src="js/vue.min.js"></script>
+
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/admin.js"></script>
+	<script>
+		layui.use(['jquery', 'form', 'layer'], function () {
+			var $ = layui.jquery,
+				layer = layui.layer
+
+		});
+	</script>
+
+</body>
+
+</html>

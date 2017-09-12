@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>E-Bank Service 商户管理平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="layui/css/layui.css" />
+	<link rel="stylesheet" href="css/admin.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="css/admin.mobile.css">
+</head>
+
+<body>
+	<!-- 布局容器 -->
+	<div class="layui-layout layui-layout-admin">
+
+		<!-- 头部 -->
+		<div id="header">
+			<header-component></header-component>
+		</div>
+
+		<!-- 遮罩层 -->
+		<div class="masked"></div>
+
+		<!-- 左侧菜单 -->
+		<div id="leftSlide">
+			<leftslide-component></leftslide-component>
+		</div>
+
+		<!-- 主体 -->
+		<div class="layui-body">
+			<!-- 主要内容 -->
+			<div class="container">
+				<form class="layui-form" action="">
+					<table class="layui-table layui-table-add layui-table-detail" lay-skin="nob">
+						<tbody>
+							<tr>
+								<th class="pad">已验证手机</th>
+								<td class="pad">137*****116</td>
+							</tr>
+							<tr class="verify-tr">
+								<th>验证码</th>
+								<td>
+									<div class="verify">
+										<input type="text" name="" placeholder="请输入验证码" autocomplete="off" class="layui-input w350">
+										<img class="yzm" src="img/code.png" alt="">
+									</div>
+								</td>
+							</tr>
+							<tr class="verify-tr">
+								<th>短信验证码</th>
+								<td>
+									<div class="verify">
+										<input type="text" name="" placeholder="请输入短信验证码" autocomplete="off" class="layui-input w350">
+										<span class="yzm layui-btn layui-btn-normal">获取短信验证码</span>
+										<span class="yzm layui-btn layui-btn-gray" style="display: none;">重新发送(120秒)</span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>开户人</th>
+								<td>
+									<div class="table-input">
+										<input type="text" name="" placeholder="请输入开户人" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>银行卡号</th>
+								<td>
+									<div class="table-input">
+										<input type="text" name="" placeholder="请输入银行卡号" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="pad">开户行</th>
+								<td class="pad">
+									自动识别
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="layui-table-btn2 ">
+						<div class="layui-btn">确 定</div>
+						<div class="layui-btn layui-btn-primary cancel">取 消</div>
+					</div>
+					<div class="init">
+						<h3 class="red">温馨提示</h3>
+						<div class="init-main f13">
+							<p>1. 请勿随便泄漏银行卡号信息，以防被不法分子利用，避免经济损失；</p>
+							<p>2. 提现账号一定要设置正确（银行卡号，姓名二者必须正确且对应），否则提现申请无法正常到账；</p>
+							<p>3. 如有提问可联系客服：<a href="tel:075536958813">0755-36958813</a></p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 可不引入 -->
+	<script type="text/javascript" src="js/vue.min.js"></script>
+
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/fastclick.js"></script>
+	<script type="text/javascript" src="js/admin.js"></script>
+	<script>
+
+	</script>
+	<script>
+		layui.use(['jquery', 'form'], function () {
+			var $ = layui.jquery;
+			$(function () {
+				FastClick.attach(document.body);
+			})
+			$('.cancel').click(function () {
+				window.history.back();
+			})
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>E-Bank Service 商户管理平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="layui/css/layui.css" />
+	<link rel="stylesheet" href="css/admin.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="css/admin.mobile.css">
+	<style>
+	</style>
+</head>
+
+<body>
+	<!-- 布局容器 -->
+	<div class="layui-layout layui-layout-admin">
+
+		<!-- 头部 -->
+		<div id="header">
+			<header-component></header-component>
+		</div>
+
+		<!-- 遮罩层 -->
+		<div class="masked"></div>
+
+		<!-- 左侧菜单 -->
+		<div id="leftSlide">
+			<leftslide-component></leftslide-component>
+		</div>
+
+		<!-- 主体 -->
+		<div class="layui-body">
+			<!-- 主要内容 -->
+			<div class="container">
+				<div class="table-list roll-x">
+					<p style="padding:10px; font-weight:bold" class="f16">接口地址：ebank.dodou.cn/axWithdrawAPI.ashx</p>
+                    <p style="padding-left:10px"class="f15">请求参数</p>
+					<table class="layui-table" lay-skin="line" style="width:900px; min-width: 900px!important;">
+						<thead>
+							<tr>
+								<th width="150">名称</th>
+								<th width="80">类型</th>
+								<th>描述</th>
+								<th>是否必填</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>WithdrawNum</td>
+								<td>String</td>
+								<td>提现编号</td>
+								<td>Y</td>
+							</tr>
+							<tr>
+								<td>UserId</td>
+								<td>String</td>
+								<td>商户Id</td>
+								<td>Y</td>
+							</tr>
+							<tr>
+								<td>WithDrawMoney</td>
+								<td>Int</td>
+								<td>提现金额（Int类型，单位：分）</td>
+								<td>Y</td>
+							</tr>
+							<tr>
+								<td>BankName</td>
+								<td>String</td>
+								<td>到账银行名称</td>
+								<td>Y</td>
+							</tr>
+							<tr>
+								<td>BankAccountName</td>
+								<td>String</td>
+								<td>到账银行开户人</td>
+								<td>Y</td>
+							</tr>
+							<tr>
+								<td>BankCardNum</td>
+								<td>String</td>
+								<td>到账银行卡号</td>
+								<td>Y</td>
+							</tr>
+							<tr>
+								<td>Remark</td>
+								<td>String</td>
+								<td>提现备注</td>
+								<td>N</td>
+							</tr>
+							<tr>
+								<td>Sign</td>
+								<td>String</td>
+								<td>签名：md5(WithdrawNum + UserId + WithDrawMoney + BankCardNum)</td>
+								<td>Y</td>
+							</tr>
+						</tbody>
+					</table>
+                    <p style="padding-left:10px" class="f15">返回参数(Json)</p>
+                    <table class="layui-table" lay-skin="line" style="width:900px; min-width: 900px!important;">
+						<thead>
+							<tr>
+								<th width="150">名称</th>
+								<th width="80">类型</th>
+								<th>描述</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Success</td>
+								<td>bool</td>
+								<td>请求是否成功</td>
+							</tr>
+                            <tr>
+								<td>WithDrawMoney</td>
+								<td>decilal</td>
+								<td>提现金额（decimal类型，单位：元）</td>
+							</tr>
+                            <tr>
+								<td>WithdrawNum</td>
+								<td>String</td>
+								<td>提现单号</td>
+							</tr>
+                            <tr>
+								<td>BankName</td>
+								<td>String</td>
+								<td>到账银行名称</td>
+							</tr>
+                            <tr>
+								<td>BankAccountName</td>
+								<td>String</td>
+								<td>到账银行开户人</td>
+							</tr>
+                            <tr>
+								<td>BankCardNum</td>
+								<td>String</td>
+								<td>到账银行卡号</td>
+							</tr>
+                            <tr>
+								<td>ErrMsg</td>
+								<td>String</td>
+								<td>错误信息</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 可不引入 -->
+	<script type="text/javascript" src="js/vue.min.js"></script>
+
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/fastclick.js"></script>
+	<script type="text/javascript" src="js/admin.js"></script>
+	<script>
+		layui.use(['jquery'], function () {
+			var $ = layui.jquery
+
+			$(function () {
+				FastClick.attach(document.body);
+			});
+
+
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>E-Bank Service 商户管理平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="layui/css/layui.css" />
+	<link rel="stylesheet" href="css/admin.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="css/admin.mobile.css">
+</head>
+
+<body>
+
+	<!-- 布局容器 -->
+	<div class="layui-layout layui-layout-admin">
+
+		<!-- 头部 -->
+		<div id="header">
+			<header-component></header-component>
+		</div>
+
+		<!-- 遮罩层 -->
+		<div class="masked"></div>
+
+		<!-- 左侧菜单 -->
+		<div id="leftSlide">
+			<leftslide-component></leftslide-component>
+		</div>
+
+		<!-- 主体 -->
+		<div class="layui-body">
+			<!-- 主要内容 -->
+			<div class="container">
+				<form class="layui-form" action="">
+					<table class="layui-table layui-table-add layui-table-detail" lay-skin="nob">
+						<tbody>
+							<tr>
+								<th class="pad">商家名称</th>
+								<td class="pad">豆豆商家</td>
+							</tr>
+							<tr>
+								<th class="pad">联系人</th>
+								<td class="pad">杨敬业</td>
+							</tr>
+							<tr>
+								<th class="pad">手机号码</th>
+								<td class="pad">13418888888</td>
+							</tr>
+							<tr>
+								<th class="pad">详细地址</th>
+								<td class="pad">广东省深圳市宝安区留仙一路高新奇工业园</td>
+							</tr>
+							<tr>
+								<th class="pad">单笔收银手续费</th>
+								<td class="pad f13"><span class="red f15">10%</span> (注：收银金额百分比)， 封顶：<span class="price f15 ">10.00</span> (注：单次收银手续费的最高收取金额)</td>
+							</tr>
+							<tr>
+								<th class="pad">单笔提现手续费</th>
+								<td class="pad f13"><span class="red f15">10%</span> (注：提现金额百分比)， 封顶：<span class="price f15 ">10.00</span> (注：单次提现手续费的最高收取金额)</td>
+							</tr>
+							<tr>
+								<th class="pad">最低余额提醒</th>
+								<td class="pad"><span class="price">500.00</span></td>
+							</tr>
+							<tr>
+								<th class="pad">PartnerID</th>
+								<td class="pad">8888888</td>
+							</tr>
+							<tr>
+								<th class="pad">Key</th>
+								<td class="pad">88888</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<!-- 可不引入 -->
+	<script type="text/javascript" src="js/vue.min.js"></script>
+
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/fastclick.js"></script>
+	<script type="text/javascript" src="js/admin.js"></script>
+	<script>
+		layui.use(['jquery', 'form'], function () {
+			var $ = layui.jquery;
+			$(function () {
+				FastClick.attach(document.body);
+
+			});	
+		});
+	</script>
+</body>
+
+</html>
