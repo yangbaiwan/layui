@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<title>E-Bank Service 商户管理平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="layui/css/layui.css" />
+	<link rel="stylesheet" href="css/admin.css" />
+	<link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="css/admin.mobile.css">
+</head>
+
+<body>
+	<!-- 布局容器 -->
+	<div class="layui-layout layui-layout-admin">
+
+		<!-- 头部 -->
+		<div id="header">
+			<header-component></header-component>
+		</div>
+
+		<!-- 遮罩层 -->
+		<div class="masked"></div>
+
+		<!-- 左侧菜单 -->
+		<div id="leftSlide">
+			<leftslide-component></leftslide-component>
+		</div>
+
+		<!-- 主体 -->
+		<div class="layui-body">
+			<!-- 主要内容 -->
+			<div class="container">
+				<div class="title">发布商品</div>
+                <form class="layui-form">
+					<table class="layui-table layui-table-content" lay-skin="nob">
+						<tbody>
+							<tr>
+								<th width="150"><span class="red">*</span>商品名称</th>
+								<td><input type="text" name="" placeholder="请输入商品名称,发布后不允许修改" autocomplete="off" class="layui-input"></td>
+							</tr>
+							<tr>
+								<th><span class="red">*</span>所属品牌</th>
+								<td class="clear">
+									<div class="fl">
+										<select lay-verify="">
+								  <option value="">请选择品牌</option>
+								  <option value="1">浪陀</option>
+								  <option value="2">安踏</option>
+								  <option value="3">耐克</option>
+								</select>
+									</div>
+									<div class="fl ml10">
+										<div class="layui-btn layui-btn-primary add">添加品牌</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th><span class="red">*</span>市场价</th>
+								<td>
+									<div class="width">
+										<input type="text" name="" placeholder="￥" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th><span class="red">*</span>显示售销价</th>
+								<td>
+									<div class="width">
+										<input type="text" name="" placeholder="￥" autocomplete="off" class="layui-input">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="pad">商品库存</th>
+								<td>100件</td>
+							</tr>
+							<tr>
+								<th><span class="red">*</span>商品类型</th>
+								<td>
+									<div class="width">
+										<select lay-verify="">
+								  <option value="">请选择商品类型</option>
+								  <option value="1">双主属性(尺码+颜色)</option>
+								  <option value="2">单属性(颜色)</option>
+								</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th valign="top"><span class="red">*</span>具体商品属性</th>
+								<td>
+									<div class="pro-property">
+										<div class="layui-btn layui-btn-normal layui-btn-small mb10">添加新属性商品</div>
+										<div class="layui-form-item">
+											<div class="layui-inline">
+												<label class="layui-form-label">尺寸</label>
+												<div class="layui-input-inline">
+													<select lay-verify="">
+										  <option value="">请选择</option>
+										  <option value="1">S码</option>
+										  <option value="2">M码</option>
+										</select>
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">颜色</label>
+												<div class="layui-input-inline">
+													<select lay-verify="">
+										  <option value="">请选择</option>
+										  <option value="1">红色</option>
+										  <option value="2">白色</option>
+										</select>
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">库存</label>
+												<div class="layui-input-inline">
+													<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入库存" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">成本价</label>
+												<div class="layui-input-inline">
+													<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入成本价" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">销售价</label>
+												<div class="layui-input-inline">
+													<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入销售价" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-btn layui-btn-danger layui-btn-small del">删除</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="layui-inline">
+												<label class="layui-form-label">尺寸</label>
+												<div class="layui-input-inline">
+													<select lay-verify="">
+										  <option value="">请选择</option>
+										  <option value="1">S码</option>
+										  <option value="2">M码</option>
+										</select>
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">颜色</label>
+												<div class="layui-input-inline">
+													<select lay-verify="">
+										  <option value="">请选择</option>
+										  <option value="1">红色</option>
+										  <option value="2">白色</option>
+										</select>
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">库存</label>
+												<div class="layui-input-inline">
+													<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入库存" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">成本价</label>
+												<div class="layui-input-inline">
+													<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入成本价" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">销售价</label>
+												<div class="layui-input-inline">
+													<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入销售价" class="layui-input">
+												</div>
+											</div>
+											<div class="layui-btn layui-btn-danger layui-btn-small">删除</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th><span class="red">*</span>商品主图</th>
+								<td>
+									<div style="width:250px" class="clear">
+										<button type="button" class="layui-btn layui-btn-small layui-btn-normal fl" id="layui-upload-file">上传图片</button> 
+										<div class="layui-form-mid layui-word-aux">不超过6张</div>
+									</div>
+									<ul id="layer-photos-demo" class="layer-photos-demo clear mt10">
+										<li><img layer-src="img/2.jpg" src="img/2.jpg"><span><i class="layui-icon">&#xe640;</i></span></li>
+										<li><img layer-src="img/2.jpg" src="img/2.jpg"><span><i class="layui-icon">&#xe640;</i></span></li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<th class="pad"><span class="red">*</span>商品描述</th>
+								<td>
+									cms编辑器
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="layui-button">
+						<div class="layui-btn" style=" min-width: 150px;">发 布</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 可不引入 -->
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/fastclick.js"></script>
+	<script type="text/javascript" src="js/admin.js"></script>
+	<script>
+		layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element'], function () {
+			var $ = layui.jquery,
+				laydate = layui.laydate,
+				layer = layui.layer,
+				laypage = layui.laypage,
+				element = layui.element;
+
+			$(function () {
+				FastClick.attach(document.body);
+			});
+
+		});
+	</script>
+</body>
+
+</html>

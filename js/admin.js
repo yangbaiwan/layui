@@ -22,7 +22,6 @@ layui.use(["element", "layer"], function () {
             $(".layui-body,.layui-footer").css("left", ($(".left-menu-all").is(":hidden")) ? "0" : "200px")
         });
 
-
         // 判断是否有本地存储
         if (sessionStorage .getItem('dataId')) {
             var dataId = sessionStorage .getItem('dataId')
@@ -44,19 +43,53 @@ layui.use(["element", "layer"], function () {
         document.body.addEventListener('touchstart', function () { });
 
     });
+
+
+
+    // 搜索
+    $(document).on('click', '#search-btn', function () {
+        $('.search-res-mask').show();
+        $(this).parent().siblings('.search-fix').addClass('cur');
+
+    })
+
+    $(document).on('click', '#search-close', function () {
+        $('.search-res-mask').hide();
+        $(this).parents('.search-fix').removeClass('cur');
+
+    })
+
+    $(document).on('click', '.search-res-mask', function () {
+        $('#search-close').trigger('click');
+    })
+
+    // 移动端下拉
+    $(document).on('click', '.layui-table .layui-table-first', function () {
+        if ($(window).width() > 992) {
+            return;
+        }
+        if ($(this).hasClass('cur')) {
+            $(this).siblings().hide();
+            $(this).removeClass('cur');
+        } else {
+            $($(this).siblings()).css('display', '-webkit-box');
+            $(this).addClass('cur');
+        }
+    })
+
+    
 });
 
 
 var header = {
-    template:
-    `  
+    template:`  
         <!-- 头部 -->
         <div class="layui-header">
             <div class="layui-main">
                 <div class="top-left">
                     <!-- logo -->
                     <a href="javascript:;" class="mulu"><img src="img/mulu.png" alt=""></a>
-                    <a href="javascript:;" class="logo">E-Bank Service 商户管理平台</a>
+                    <a href="javascript:;" class="logo">layui响应式框架</a>
                     <a href="javascript:;" class="menu-flexible ml10">
                         <i class="layui-icon">&#xe635;</i> 
                     </a>
@@ -77,7 +110,6 @@ var header = {
                 </ul>
             </div>
         </div>
-
         `
 };
 
@@ -100,10 +132,83 @@ var leftSlide =
                         <a href="首页.html" data-id="1">后台首页</a>
                     </li>
                     <li class="layui-nav-item">
+                        <a href="javascript:;">商品管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="平台商品.html" data-id="2">平台商品</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">订单管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="待发货.html" data-id="4">待发货</a>
+                            </dd>
+                            <dd>
+                                <a href="订单列表.html" data-id="5">订单列表</a>
+                            </dd>
+                            <dd>
+                                <a href="退货订单.html" data-id="6">退货订单</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">运营管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="轮播图.html" data-id="7">轮播图</a>
+                            </dd>
+                            <dd>
+                                <a href="热卖/新品推荐.html" data-id="8">热卖/新品推荐</a>
+                            </dd>
+                            <dd>
+                                <a href="首页分类推荐.html" data-id="9">首页分类推荐</a>
+                            </dd>
+                            <dd>
+                                <a href="公告管理.html" data-id="10">公告管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">账号管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="运营管理账号.html" data-id="11">运营管理账号</a>
+                            </dd>
+                            <dd>
+                                <a href="会员账号.html" data-id="12">会员账号</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
                         <a href="javascript:;">财务管理</a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a href="商户提现.html" data-id="3">模板</a>
+                                <a href="财务统计.html" data-id="13">财务统计</a>
+                            </dd>
+                            <dd>
+                                <a href="提现操作.html" data-id="14">提现管理</a>
+                            </dd>
+                            <dd>
+                                <a href="分类统计.html" data-id="15">分类统计</a>
+                            </dd>
+                            <dd>
+                                <a href="商品统计.html" data-id="16">商品统计</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">统计查询</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="会员统计.html" data-id="17">会员统计</a>
+                            </dd>
+                            <dd>
+                                <a href="品牌查询.html" data-id="18">品牌查询</a>
+                            </dd>
+                            <dd>
+                                <a href="商品查询.html" data-id="19">商品查询</a>
                             </dd>
                         </dl>
                     </li>
@@ -111,10 +216,22 @@ var leftSlide =
                         <a href="javascript:;">系统设置</a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a href="商户查询.html" data-id="6">商户查询</a>
+                                <a href="操作日志.html" data-id="20">操作日志</a>
                             </dd>
                             <dd>
-                                <a href="接口文档.html" data-id="7">接口文档</a>
+                                <a href="商品类型管理.html" data-id="21">商品类型管理</a>
+                            </dd>
+                            <dd>
+                                <a href="商品属性管理.html" data-id="22">商品属性管理</a>
+                            </dd>
+                            <dd>
+                                <a href="品牌管理.html" data-id="23">品牌管理</a>
+                            </dd>
+                            <dd>
+                                <a href="导航设计.html" data-id="24">导航设计</a>
+                            </dd>
+                            <dd>
+                                <a href="系统参数设置.html" data-id="25">系统参数设置</a>
                             </dd>
                         </dl>
                     </li>

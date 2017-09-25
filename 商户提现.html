@@ -221,7 +221,6 @@
 	</div>
 	<!-- 可不引入 -->
 	<script type="text/javascript" src="js/vue.min.js"></script>
-
 	<script type="text/javascript" src="layui/layui.js"></script>
 	<script type="text/javascript" src="js/fastclick.js"></script>
 	<script type="text/javascript" src="js/admin.js"></script>
@@ -295,39 +294,7 @@
 				});
 			});
 
-
-			// ----------------------------------------------------------------
-
-			// 搜索
-			$(document).on('click', '#search-btn', function () {
-				$('.search-res-mask').show();
-				$(this).parent().siblings('.search-fix').addClass('cur');
-
-			})
-
-			$(document).on('click', '#search-close', function () {
-				$('.search-res-mask').hide();
-				$(this).parents('.search-fix').removeClass('cur');
-
-			})
-
-			$(document).on('click', '.search-res-mask', function () {
-				$('#search-close').trigger('click');
-			})
-
-			// 移动端下拉
-			$(document).on('click', '.layui-table .layui-table-first', function () {
-				if ($(window).width() > 992) {
-					return;
-				}
-				if ($(this).hasClass('cur')) {
-					$(this).siblings().hide();
-					$(this).removeClass('cur');
-				} else {
-					$($(this).siblings()).css('display', '-webkit-box');
-					$(this).addClass('cur');
-				}
-			})
+			
 
 		});
 	</script>
