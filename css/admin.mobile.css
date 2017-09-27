@@ -818,6 +818,10 @@
         text-align: left;
         padding-right: 0;
     }
+    .layui-table-content .box td{
+        text-align: right;
+        -webkit-box-flex:1
+    }
     
 
      
