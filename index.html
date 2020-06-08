@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="pragma" content="no-cache" />
+    <!-- 禁止页面缓存 -->
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+
+    <style>
+        .index-img {
+            text-align: center;
+        }
+
+        .index-img img {
+            width: 150px;
+        }
+
+        .index-data ul {
+            border: 1px solid #e6e6e6;
+        }
+
+        .index-data ul li {
+            border-bottom: 1px solid #e6e6e6;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .index-data ul li:hover {
+            background: #f2f2f2;
+        }
+
+        .index-data ul li:last-child {
+            border-bottom: 0;
+        }
+
+        .border-right {
+            border-right: 1px solid #e6e6e6;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <!-- 搜索条件 -->
+                <div class="index-img">
+
+                    <img class="adminimg" src="__PUBLIC__/img/default.png" alt="">
+                </div>
+                <!-- 表格列表 -->
+                <div class="table-list index-data" id="test">
+                    <ul>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">姓名</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 adminname"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">性别</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 adminsex"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">手机号</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 adminphone"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">注册时间</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 admindate"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">人员归属</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 adminrengui"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">店铺ID</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 adminshopid"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">申请人状态</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 adminState"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">微信公众号绑定状态</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 is_weixin"></div>
+                        </li>
+                        <li class="layui-row" style="text-align: center;">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 border-right">地址</div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 is_weixinadress"></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 分页 -->
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/overLoading.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+
+            //首页数据
+            // $.ajax({
+            //     url: "{:U('Index/indexShow')}",
+            //     type: 'POST',
+            //     data: {},
+            //     success: function (res) {
+            //         console.log(res);
+            //         var adminsex = res.adminsex == 2 ? '女' : '男';
+            //         var admindate = res.admindate.split(' ')[0];
+            //         var adminrengui = res.adminrengui == 1 ? '超人妈妈' + '-' + res.jueshequanxian[0] +
+            //             '-' + res.jueshequanxian[1] : '内部员工' + '-' + res.jueshequanxian[0] + '-' +
+            //             res.jueshequanxian[1];
+            //         var adminState = res.adminState == 1 ? '审核通过' : '未通过或未审核';
+            //         var is_weixin = res.is_weixin == 0 ? '未绑定' : '绑定';
+            //         $('.adminname').text(res.adminname);
+            //         $('.adminsex').text(adminsex);
+            //         $('.adminphone').text(res.adminphone);
+            //         $('.admindate').text(admindate);
+            //         $('.adminrengui').text(adminrengui);
+            //         $('.adminState').text(adminState);
+            //         $('.is_weixin').text(is_weixin);
+            //         $('.adminimg').attr('src', res.weixintouxiang);
+            //         $('.is_weixinadress').text(res.weixinaddress);
+            //         // console.log(res.adminstate)
+            //         if (res.adminstate == 0) {
+            //             $('.highShow').hide();
+            //             $('.endAdmin').hide();
+            //             $('.endShow').hide();
+            //             $('.modieShow').hide();
+            //             $('.saleShow').hide();
+            //             $('.rootShow').hide();
+            //         } else {
+            //             if (res.jueshequanxian[1] == '内部管理' || res.jueshequanxian[1] == '外部管理') {
+            //                 //中层审核
+            //                 $('.highShow').hide();
+            //                 $('.endAdmin').hide();
+            //                 $('.endShow').hide();
+            //                 $('.modieShow').show();
+            //                 $('.saleShow').hide();
+            //                 $('.rootShow').hide();
+            //             }
+            //             if (res.jueshequanxian[1] == '内部销售' || res.jueshequanxian[1] == '外部销售') {
+            //                 $('.highShow').hide();
+            //                 $('.endAdmin').hide();
+            //                 $('.endShow').hide();
+            //                 $('.modieShow').hide();
+            //                 $('.saleShow').show();
+            //                 $('.rootShow').hide();
+            //             }
+            //             if (res.jueshequanxian[1] == '后端管理') {
+            //                 $('.highShow').hide();
+            //                 $('.endAdmin').show();
+            //                 $('.endShow').hide();
+            //                 $('.modieShow').hide();
+            //                 $('.saleShow').hide();
+            //                 $('.rootShow').hide();
+            //                 sessionStorage.setItem('dataId', 10)
+            //             }
+            //             if (res.jueshequanxian[1] == '后端转介绍') {
+            //                 $('.highShow').hide();
+            //                 $('.endAdmin').hide();
+            //                 $('.endShow').show();
+            //                 $('.modieShow').hide();
+            //                 $('.saleShow').hide();
+            //                 $('.rootShow').hide();
+            //             }
+            //             if (res.jueshequanxian[1] == '联合创始人') {
+            //                 $('.highShow').show();
+            //                 $('.endAdmin').hide();
+            //                 $('.endShow').hide();
+            //                 $('.modieShow').hide();
+            //                 $('.saleShow').hide();
+            //                 $('.rootShow').hide();
+            //                 sessionStorage.setItem('dataId', 11)
+            //             }
+            //             if (res.jueshequanxian[1] == 'root') {
+            //                 $('.highShow').show();
+            //                 $('.endAdmin').show();
+            //                 $('.endShow').show();
+            //                 $('.modieShow').show();
+            //                 $('.saleShow').show();
+            //                 $('.rootShow').show();
+            //                 sessionStorage.setItem('dataId', 13)
+            //             }
+            //         }
+
+
+            //     }
+            // });
+
+
+            //判断是否成单
+            $(document).on('click', '#check', function () {
+                console.log(1);
+            })
+            layui.form.on('checkbox', function (data) {
+                console.log(data.elem); //得到checkbox原始DOM对象
+                console.log(data.elem.checked); //是否被选中，true或者false
+                console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+                console.log(data.othis); //得到美化后的DOM对象
+                if (data.elem.checked === true) {
+                    layer.open({
+                        title: '请输入此成单用户的手机号',
+                        content: '<div class="layui-input-inline"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></div>'
+                    });
+                }
+            });
+
+
+
+        });
+    </script>
+</body>
+
+</html>

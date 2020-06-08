@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+    <style>
+        .iconPosi {
+            position: absolute;
+            top: 50%;
+            margin-top: -19px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">root</a>
+                        <a href="javascript:;">权限分配</a>
+                    </span>
+                </div>
+
+                <!-- 表格列表 -->
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test">
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                table = layui.table,
+                laypage = layui.laypage,
+                form = layui.form,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            // layui.form.on('checkbox', function (data) {
+            //     console.log(data.elem); //得到checkbox原始DOM对象
+            //     console.log(data.elem.checked); //是否被选中，true或者false
+            //     console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+            //     console.log(data.othis); //得到美化后的DOM对象
+            //     if (data.elem.checked === true) {
+            //         layer.open({
+            //             title: '请输入此成单用户的手机号',
+            //             content: '<div class="layui-input-inline"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></div>'
+            //         });
+            //     }
+            // });
+            dataShow();
+
+            function dataShow() {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Root/rootShow')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    parseData: function (res) {
+                        if (res.code == 1) {
+                            layer.msg('没有权限');
+                            return {
+                                'code': 0,
+                                'data': res.data.data
+                            };
+                        } else {
+                            console.log(res.data);
+                            return {
+                                'code': 0,
+                                'data': res.data.data
+                            }
+                        }
+
+
+                    },
+                    cols: [
+                        [{
+                                field: 'adminname',
+                                // width: 80,
+
+                                minWidth: 120,
+
+                                align: 'center',
+                                title: '申请人'
+                            },
+                            {
+                                field: 'jueshequanxian',
+                                align: 'center',
+                                // width: 80,
+                                title: '申请权限',
+
+                                minWidth: 120,
+                                totalRow: false,
+                                align: 'center',
+                                templet: function (row) {
+                                    return row.jueshequanxian[0] + '-' + row.jueshequanxian[1];
+                                }
+                            },
+                            {
+                                field: 'adminphone',
+                                // width: 80,
+                                title: '手机号',
+                                align: 'center',
+
+                                minWidth: 120,
+
+                                event: 'edit',
+                                templet: function (res) {
+                                    // console.log(res.phone != '' ? res.phone.substring(0, 3) +
+                                    //     '****' + res.phone.substring(7, 12) : '');
+                                    return res.adminphone != '' && res.adminphone != null ? res
+                                        .adminphone
+                                        .substring(0, 3) +
+                                        '****' + res.adminphone.substring(7, 12) : ''
+                                }
+                            },
+                            {
+                                field: 'admindate',
+
+                                align: 'center',
+                                minWidth: 120,
+                                // width: 80,
+                                title: '注册时间'
+                            },
+                            {
+                                field: 'adminstate',
+
+                                align: 'center',
+                                title: '是否通过审核',
+                                templet: "#radioTpl",
+                                minwidth: 120,
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                        console.log(res);
+
+                        //得到当前页码
+                        console.log(curr);
+
+                        //得到数据总量
+                        console.log(count);
+                    }
+                });
+
+            }
+
+            form.on("checkbox(radiodemo)", function (obj) {
+                // this.value == 1 ? 
+                console.log(this.value);
+                console.log($(this).attr('lay-id'))
+                $.ajax({
+                    url: "{:U('Root/updateRoot')}",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        adminId: $(this).attr('lay-id'),
+                        satte: this.value == 1 ? 0 : 1
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code == 0) {
+                            dataShow();
+                            layer.msg('状态修改成功！');
+                        } else {
+                            layer.msg('状态修改失败！');
+                        }
+                    }
+                });
+            });
+
+
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    if ($(this).children().text().substr(3, 1) == '*') {
+                        $(this).children().text(data.adminphone)
+                        console.log($(this).parent().siblings())
+                        $(this).parent().siblings().map(function (i, val, arr) {
+                            if (val.childNodes[2].children[0].innerText.length == 11 && val
+                                .childNodes[2].children[0].innerText.substr(3, 1) != '*') {
+                                val.childNodes[2].children[0].innerText = val.childNodes[2]
+                                    .dataset.content.substring(0, 3) + '****' +
+                                    val.childNodes[2].dataset.content.substring(7, 12);
+                            } else {
+
+                            }
+
+                        })
+
+                    } else {
+                        if (data.adminphone != '' && data.adminphone != null) {
+                            $(this).children().text(data.adminphone.substring(0, 3) + '****' + data
+                                .adminphone
+                                .substring(7, 12));
+
+                        }
+
+                    }
+
+                }
+            });
+        });
+    </script>
+    <script type="text/html" id="radioTpl">
+        <input type="checkbox" name="sexRadio" value="{{d.adminstate}}" lay-id="{{d.adminid}}" title=" "
+            lay-skin="primary" lay-filter="radiodemo" {{ d.adminstate == "1" ? "checked" : "" }}>
+    </script>
+</body>
+
+</html>

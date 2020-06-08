@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <title>CRM管理系统</title>
+  <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+    name="viewport" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+  <meta content="telephone=no" name="format-detection" />
+  <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+  <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css" />
+  <!-- <link rel="stylesheet" href="__PUBLIC__/css/index.css" /> -->
+  <style>
+    .headimg {
+      line-height: 66px;
+    }
+
+    .laytable-cell-1-0-0 {
+      height: auto !important;
+    }
+
+    .layui-table-view .layui-table {
+      width: 100% !important;
+    }
+
+    .layui-laypage-limits {
+      display: none !important;
+    }
+
+    .layui-table-cell {
+      height: auto !important;
+    }
+
+    .rightAlign {
+      text-align: center;
+    }
+
+    .btnStyle {
+      width: auto;
+      position: relative;
+    }
+
+    .diyWidth {
+      width: auto;
+    }
+
+    .divNone {
+      display: none;
+    }
+
+    .divHide {
+      visibility: hidden;
+    }
+
+    .marRight {
+      margin-right: 2px;
+    }
+
+    .hover-sty {
+      font-size: 35px;
+      color: #000000;
+      vertical-align: middle;
+    }
+
+    .hover-sty:hover {
+      color: #009688;
+    }
+
+    .qrcode {
+      text-align: center;
+    }
+
+    .unmatched-btn {
+      position: relative;
+    }
+
+    .unmatched-box {
+      position: relative;
+    }
+
+    .imgLd {
+      width: 15px;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .newlayui-input-inline {
+      width: auto;
+    }
+
+    @media screen and (max-width: 992px) {
+      .imgPosi {
+        position: relative;
+        width: 100%;
+        height: 55px;
+        margin-left: -52px;
+      }
+
+      .imgBox {
+        display: inline-block;
+        width: auto;
+        /* margin: 0 auto; */
+        position: absolute;
+        left: 50%;
+      }
+
+      .lineWidth {
+        width: 100% !important;
+      }
+
+      .unmatched {
+        width: 100% !important;
+      }
+
+      .btnWidth {
+        width: 90%;
+      }
+
+      .fr {
+        float: right;
+      }
+
+      .Lcenter {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 布局容器 -->
+  <div class="layui-layout layui-layout-admin">
+    <input type="hidden" id="menu" value="{:U('Index/indexShow')}" />
+    <!-- 头部 -->
+    <div id="header">
+      <header-component></header-component>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div class="masked"></div>
+
+    <!-- 左侧菜单 -->
+    <div id="leftSlide">
+      <leftslide-component></leftslide-component>
+    </div>
+    <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}" />
+    <!-- 主体 -->
+    <div class="layui-body">
+      <!-- 主要内容 -->
+      <div class="container">
+        <div class="nav-sty">
+          <span class="layui-breadcrumb">
+            <a href="#">销售端展示</a>
+            <a href="./frontline.html">个人中心</a>
+          </span>
+        </div>
+        <!-- 搜索条件 -->
+        <div class="search-res-mask"></div>
+        <div class="search-res">
+          <div class="search-res-btn hide-pc">
+            <button class="layui-btn" id="search-btn">
+              <i class="layui-icon">&#xe615;</i>查询
+            </button>
+          </div>
+          <div class="content-search search-fix" style="border: 0;">
+            <div class="layui-form layui-form-pane layui-row" style="line-height: 60px;">
+              <div class="layui-inline layui-col-xs12 layui-col-sm12 layui-col-md2 imgPosi">
+                <div class="layui-input-inline imgBox">
+                  <img class="img-cp fl mr10 userImg" src="__PUBLIC__/img/default.png" alt="" />
+                  <span class="userName">杨哥</span>
+                </div>
+              </div>
+              <div class="layui-inline layui-col-xs12 layui-col-sm12 layui-col-md4">
+                <div class="layui-input-inline newlayui-input-inline lineWidth" style="">
+                  <input type="text" id="iphone" name="title" required lay-verify="required" placeholder="请输入手机号或微信号"
+                    onkeyup="this.value=this.value.replace(/\s+/g,'')" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-input-inline newlayui-input-inline"
+                  style="position: relative;margin-left: -3px;display: inline-block;">
+                  <button class="layui-btn lineWidth iconPosi">
+                    <i class="layui-icon layui-icon-search"></i>查询
+                  </button>
+                </div>
+                <div class="layui-input-inline newlayui-input-inline"
+                  style="position: relative;margin-left: -3px;display: inline-block;">
+                  <button class="layui-btn lineWidth reset">
+                    <i class="layui-icon layui-icon-refresh-3"></i>重置
+                  </button>
+                </div>
+              </div>
+              <div class="layui-inline layui-col-xs6 layui-col-sm6 layui-col-md2">
+                <!-- <label class="layui-form-label">时间段</label> -->
+                <div class="layui-input-inline newlayui-input-inline marRight">
+                  <button class="layui-btn layui-btn-primary applic btnStyle btnWidth flow">
+                    我要申请
+                  </button>
+                </div>
+              </div>
+              <div class="layui-inline layui-col-xs6 layui-col-sm6 layui-col-md2">
+                <div class="layui-input-inline newlayui-input-inline marRight">
+                  <button onclick="window.location.href='succ-user.html'"
+                    class="layui-btn layui-btn-primary btnStyle btnWidth fr">
+                    我的成单用户
+                  </button>
+                </div>
+              </div>
+              <div class="layui-inline layui-col-xs6 layui-col-sm6 layui-col-md2 unmatched">
+                <div class="layui-input-inline newlayui-input-inline">
+                  <div class="unmatched-box">
+                    <button onclick="window.location.href='Unmatched.html'"
+                      class="layui-btn layui-btn-primary btnStyle unmatched unmatched-btn">
+                      未匹配到的用户(10人)
+                      <img src="__PUBLIC__/img/ld.png" alt="" class="imgLd" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="layui-inline  layui-col-xs12">
+                <!-- <button class="layui-btn" lay-submit="">查询</button> -->
+                <button class="layui-btn layui-btn-primary hide-pc" id="search-close">
+                  关闭
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="" style="line-height: 40px;">
+          <div class="layui-row">
+            <div class="layui-col-xs6 layui-col-sm2 layui-col-md2 addNumBox Lcenter">
+              <label class="">今日新增人数</label>
+              <span class="addNum">10</span>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm2 layui-col-md2 addChangeNumBox Lcenter">
+              <label>新增转化人数</label>
+              <span class="addChangeNum">10</span>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm2 layui-col-md2 alreadyChangeBox Lcenter">
+              <label>已转化人数</label>
+              <span class="alreadyChange">10</span>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm2 layui-col-md2 converBox Lcenter">
+              <label>平均转化率</label>
+              <span class="conver">10</span>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md2 layui-form Lcenter">
+              <select name="inDate" id="inDate" lay-verify="required" lay-filter="inDate">
+                <option value="0">筛选</option>
+                <option value="1">保护期</option>
+                <option value="2">关键期</option>
+                <option value="3">失效期</option>
+              </select>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md2 layui-form qrcode Lcenter ">
+              <button class="layui-btn layui-btn-primary qcode" style="margin-bottom:0;">
+                生成绑定二维码
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- 表格列表 -->
+        <div class="table-list">
+          <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test"></table>
+        </div>
+        <div id="pageAge"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 可不引入 -->
+  <script src="__PUBLIC__/js/jquery.min.js"></script>
+
+  <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/js/overLoading.js"></script>
+  <script>
+    layui.use(
+      ["jquery", "form", "laydate", "layer", "laypage", "element", "table"],
+      function () {
+        var $ = layui.jquery,
+          laydate = layui.laydate,
+          layer = layui.layer,
+          laypage = layui.laypage,
+          table = layui.table,
+          form = layui.form,
+          element = layui.element;
+        $(function () {
+          FastClick.attach(document.body);
+        });
+        $(".applic").on("click", function () {
+          var str = "",
+            area = parseInt(window.screen.width) < 768 ? "300px" : "500px";
+          if (parseInt(window.screen.width) < 768) {
+            str =
+              '<div class=""><div style="margin-bottom: 10px;"><label>申请人数: </label><input type="number" id="layer-per" name="title" placeholder="" autocomplete="off" class="layui-input diyWidth"><span style="color: red;">一次只能申请10人</span></div><div style="position: relative"><label style="position: absolute;">申请留言: </label><textarea name="desc" placeholder="请输入留言" class="layui-textarea applicL" style="width: 186px;margin-left: 64px;"></textarea></div></div>';
+          } else {
+            str =
+              '<div class=""><div style="margin-bottom: 10px;"><label class="layui-form-label">申请人数: </label><input type="number" id="layer-per" name="title" placeholder="" autocomplete="off" class="layui-input diyWidth"><span style="margin-left: 10px;color: red;">一次只能申请10人</span></div><div><label class="layui-form-label">申请留言: </label><textarea name="desc" placeholder="请输入留言" class="layui-textarea applicL" style="width: 215px;display: inline-block;"></textarea></div></div>';
+          }
+          layer.open({
+            title: "",
+            content: str,
+            btn: ["确定", "取消"],
+            area: area,
+            yes: function (index, layero) {
+              if (
+                $("#layer-per").val() <= 10 &&
+                $("#layer-per").val() > 0 &&
+                $("#layer-per")
+                .val()
+                .trim() != "" &&
+                $(".applicL")
+                .val()
+                .trim() != ""
+              ) {
+                $.ajax({
+                  url: "{:U('Frontline/flow')}",
+                  type: "POST",
+                  data: {
+                    num: $("#layer-per").val(),
+                    textL: $(".applicL").val()
+                  },
+                  success: function (res) {
+                    console.log(res);
+                    if (res.state == 2000) {
+                      layer.close(index);
+                      layer.msg("申请成功！");
+                    } else if (res.state == 4005) {
+                      layer.msg("申请超额！");
+                    } else if (res.state == 2004) {
+                      layer.msg("申请失败！");
+                    }
+                  }
+                });
+              } else {
+                if (
+                  $("#layer-per").val() > 10 ||
+                  $("#layer-per").val() <= 0
+                ) {
+                  layer.msg(
+                    "申请人数为1到10人！", {
+                      type: 1
+                    },
+                    function (index) {
+                      layer.close(index);
+                    }
+                  );
+                  return true;
+                }
+                if (
+                  $("#layer-per")
+                  .val()
+                  .trim() == "" ||
+                  $(".applicL")
+                  .val()
+                  .trim() == ""
+                ) {
+                  layer.msg(
+                    "请将申请信息填写完整！", {
+                      type: 1
+                    },
+                    function (index) {
+                      layer.close(index);
+                    }
+                  );
+                  return true;
+                }
+              }
+            },
+            btn2: function (index, layero) {},
+            cancel: function () {}
+          });
+        });
+        $('#iphone').val(sessionStorage.getItem('phone'))
+        $('#inDate').find("option[value='"+ sessionStorage.getItem('value') +"']").prop("selected",true)
+        form.render();
+        $(".iconPosi").on("click", function () {
+          var myreg = /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/;
+          var iphone = $("#iphone").val();
+          if (iphone.length > 0) {
+            // dataShow(iphone, "");
+            tableL(iphone, '', location.hash.split('=')[1])
+            sessionStorage.setItem('phone', iphone)
+            sessionStorage.removeItem('value')
+            $(".iconPosi").val(sessionStorage.getItem('phone'))
+            pageChange()
+          } else {
+            layer.msg("请输入微信号或手机号！");
+          }
+        });
+        $('.reset').on('click', function () {
+          sessionStorage.removeItem('phone')
+          sessionStorage.removeItem('value')
+
+          layer.msg("搜索条件已重置！");
+          $('#iphone').val('')
+          $('#inDate').find("option[value='0']").prop("selected",true)
+          form.render();
+          tableL('', '', location.hash.split('=')[1])
+          pageChange()
+        })
+        form.on("select(inDate)", function (res) {
+          if (res.value) {
+            // dataShow("", res.value);
+            tableL("", res.value, 1);
+            sessionStorage.setItem('value', res.value)
+            sessionStorage.removeItem('phone')
+            pageChange()
+            location.replace('http://admin.wdkid.cn/index.php/Home/Frontline/frontline.html#!fenye=1')
+            location.reload()
+          }
+        });
+       //
+        $(".qcode").on("click", function () {
+          $.ajax({
+            url: "{:U('Frontline/adminCode')}",
+            type: "POST",
+            data: {},
+            success: function (res) {
+              console.log(res);
+              layer.open({
+                title: "",
+                content: '<img style="width: 98%;display: inline-block;margin: 0 auto;" src="' +
+                  res.url +
+                  '">',
+                btn: [],
+                area: ["300px", "310px"],
+                scrollbar: false
+              });
+            }
+          });
+        });
+
+        table.on("tool(test)", function (obj) {
+          var data = obj.data;
+          if (obj.event === "setSign") {
+            // console.log(obj.data);
+            sessionStorage.setItem("detail", JSON.stringify(obj.data));
+            window.location.href = "detail.html";
+          }
+          if (obj.event === "remove") {
+            layer.open({
+              title: "",
+              content: '<div class=""><div><label class="layui-form-label">申请留言: </label><textarea name="desc" placeholder="请输入留言" class="layui-textarea sealRemark" style="width: 300px;display: inline-block;"></textarea></div></div>',
+              btn: ["确定", "取消"],
+              area: "500px",
+              yes: function (index, layero) {
+                if (
+                  $(".sealRemark")
+                  .val()
+                  .trim() == ""
+                ) {
+                  layer.msg(
+                    "留言不能为空！", {
+                      type: 1
+                    },
+                    function (index) {
+                      layer.close(index);
+                    }
+                  );
+                  return true;
+                } else {
+                  $.ajax({
+                    url: "{:U('Frontline/yiGongHaiAll')}",
+                    type: "POST",
+                    data: {
+                      text: $(".sealRemark").val(),
+                      userId: obj.data.wdkidid
+                    },
+                    success: function (res) {
+                      console.log(res);
+                      if (res.state == 2000) {
+                        layer.msg("移入公海成功");
+                      } else if (res.state == 4000) {
+                        layer.msg("移入公海失败");
+                      } else {
+                        layer.msg("不在你的保护期不可移入公海！");
+                      }
+                    }
+                  });
+                  layer.close(index);
+                }
+              },
+              btn2: function (index, layero) {},
+              cancel: function () {}
+            });
+          }
+
+          if (obj.event === "edit") {
+            console.log(data.phone);
+            console.log($(this));
+            var item_table = table.cache["test"];
+            console.log(item_table);
+            if (
+              $(this)
+              .children()
+              .text()
+              .substr(3, 1) == "*"
+            ) {
+              $(this)
+                .children()
+                .text(data.phone);
+              console.log(
+                $(this)
+                .parent()
+                .siblings()
+              );
+              $(this)
+                .parent()
+                .siblings()
+                .map(function (i, val, arr) {
+                  if (
+                    val.childNodes[5].children[0].innerText.length == 11 &&
+                    val.childNodes[5].children[0].innerText.substr(3, 1) !=
+                    "*"
+                  ) {
+                    val.childNodes[5].children[0].innerText =
+                      val.childNodes[5].dataset.content.substring(0, 3) +
+                      "****" +
+                      val.childNodes[5].dataset.content.substring(7, 12);
+                  } else {}
+                });
+            } else {
+              if (data.phone != "" && data.phone != null) {
+                $(this)
+                  .children()
+                  .text(
+                    data.phone.substring(0, 3) +
+                    "****" +
+                    data.phone.substring(7, 12)
+                  );
+              }
+            }
+          }
+          if (obj.event === "wechat") {
+            if (
+              $(this)
+              .children()
+              .text()
+              .substr(1, 1) == "*"
+            ) {
+              $(this)
+                .children()
+                .text(data.weixinhao);
+              $(this)
+                .parent()
+                .siblings()
+                .map(function (i, val, arr) {
+                  if (
+                    val.childNodes[4].children[0].innerText.length != 0 &&
+                    val.childNodes[4].children[0].innerText.substr(0, 1) !=
+                    "*"
+                  ) {
+                    val.childNodes[4].children[0].innerText =
+                      "****" +
+                      data.weixinhao.substr(4, data.weixinhao.length - 4);
+                  } else {}
+                });
+            } else {
+              if (data.weixinhao != "" && data.weixinhao != null) {
+                $(this)
+                  .children()
+                  .text(
+                    "****" +
+                    data.weixinhao.substr(4, data.weixinhao.length - 4)
+                  );
+              }
+            }
+          }
+        });
+
+        layui.form.on("checkbox", function (data) {
+          console.log(data.elem); //得到checkbox原始DOM对象
+          console.log(data.elem.checked); //是否被选中，true或者false
+          console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+          console.log(data.othis); //得到美化后的DOM对象
+          if (data.elem.checked === true) {
+            // layer.open({
+            //     title: '请输入此成单用户的手机号',
+            //     content: '<div class="layui-input-inline"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></div>'
+            // });
+            layer.open({
+              title: "请输入此成单用户的手机号",
+              content: '<div class="layui-input-inline"><input type="text" id="layer-ipone" name="title" placeholder="" autocomplete="off" class="layui-input"></div>',
+              btn: ["确定", "取消"],
+              yes: function (index, layero) {
+                if (!/^1[34578]\d{9}$/.test($("#layer-ipone").val())) {
+                  layer.msg(
+                    "请输入正确的手机号码！", {
+                      type: 1
+                    },
+                    function (index) {
+                      layer.close(index);
+                    }
+                  );
+                  return true;
+                } else {
+                  layer.close(index);
+                }
+              },
+              btn2: function (index, layero) {
+                console.log(index);
+                console.log(data.elem.checked);
+                data.elem.checked = false;
+                layui.form.render();
+              },
+              cancel: function () {
+                data.elem.checked = false;
+                layui.form.render();
+              }
+            });
+          }
+        });
+        var currAll = 0
+
+        function tableL(phone, state, page) {
+          $.ajax({
+            url: phone && phone.length < 11 ? "{:U('Frontline/weiXinHaoSelect')}" :
+              "{:U('Frontline/frontlineDataShow')}",
+            method: 'POST',
+            async: false,
+
+            data: {
+              keyVal: /^[1][3,4,5,7,8][0-9]{9}$/.test(phone) ? "" : phone,
+              phone: /^[1][3,4,5,7,8][0-9]{9}$/.test(phone) ? phone : "",
+              state: state || "",
+              page: page || 1
+
+            },
+            success: function (res) {
+              console.log(res)
+              currAll = res.count
+
+              if (!phone) {
+                $(".userImg").attr("src", res.admin.weixintouxiang);
+                $(".userName").text(res.admin.adminname);
+
+                $(".addNum").text(res.jinCount);
+                $(".addChangeNum").text(res.xinChengCount);
+                $(".alreadyChange").text(res.chengCount);
+                $(".conver").text(res.lvCount);
+                if (res.weiCount > 0) {
+                  $(".unmatched-btn").html(
+                    "未匹配到的用户(" +
+                    res.weiCount +
+                    '人)<img src="__PUBLIC__/img/ld.png" alt="" class="imgLd">'
+                  );
+                } else {
+                  $(".unmatched-btn").html(
+                    "未匹配到的用户(" + res.weiCount + "人)"
+                  );
+                }
+              }
+
+             
+
+              render(res, phone, state)
+            }
+          })
+        }
+        tableL(sessionStorage.getItem('phone'), sessionStorage.getItem('value'), location.hash.split('=')[1])
+
+
+        //
+        function render(data, phone, state) {
+          console.log(data)
+          table.render({
+            elem: "#test",
+            data: Array.isArray(data) ? data : data.data,
+            
+            parseData: function (pro) {
+              console.log(pro)
+              
+                return {
+                  'code': 0,
+                  'data': data.data
+                };
+              
+            },
+            limit: [30],
+            page: false,
+
+            cols: [
+              [{
+                  field: "wdkidimg",
+                  // width: 80,
+                  title: "用户头像",
+                  templet: '<div style="height:auto!important;width:86px!important"><img style="width: 40%;" src="{{ d.wdkidimg}}"></div>',
+                  align: "center",
+                  minWidth: 120
+                },
+                {
+                  field: "wdkidusername",
+                  // width: 80,
+                  title: "用户昵称",
+                  align: "center",
+                  totalRow: false,
+                  minWidth: 120
+                },
+                {
+                  field: "wdkidbang",
+                  align: "center",
+                  // width: 80,
+                  title: "绑定日期",
+                  minWidth: 120
+                },
+                {
+                  field: "wdkidstate",
+                  align: "center",
+                  // width: 80,
+                  title: "所处期间",
+                  templet: function (row) {
+                    if (row.wdkidstate == 0) {
+                      return "待绑定状态";
+                    } else if (row.wdkidstate == 1) {
+                      return "保护期";
+                    } else if (row.wdkidstate == 2) {
+                      return "关键期";
+                    } else if (row.wdkidstate == 3) {
+                      return "失效期";
+                    }
+                  },
+                  minWidth: 120
+                },
+                {
+                  field: "weixinhao",
+                  // width: 80,
+                  align: "center",
+                  title: "微信号",
+                  minWidth: 120,
+                  event: "wechat",
+                  templet: function (res) {
+                    return res.weixinhao != "" && res.weixinhao != null ?
+                      "****" +
+                      res.weixinhao.substr(4, res.weixinhao.length - 4) :
+                      "";
+                  }
+                },
+                {
+                  field: "phone",
+                  title: "手机号(选填)",
+                  align: "center",
+                  // width: 80,
+                  minWidth: 120,
+                  event: "edit",
+                  templet: function (res) {
+                    // console.log(res.phone != '' ? res.phone.substring(0, 3) +
+                    //     '****' + res.phone.substring(7, 12) : '');
+                    return res.phone != "" && res.phone != null ?
+                      res.phone.substring(0, 3) +
+                      "****" +
+                      res.phone.substring(7, 12) :
+                      "";
+                  }
+                },
+                {
+                  field: "beizhu",
+                  align: "center",
+                  title: "备注",
+                  // width: 80
+                  minWidth: 120
+                },
+                {
+                  field: "sign",
+                  title: "移至公海",
+                  width: 137,
+                  align: "center",
+                  // type: 'checkbox'
+                  templet: '<div class="layui-inline layui-form layui-table-bd"><button class="layui-btn">移至公海</button></div>',
+                  minWidth: 120,
+                  event: "remove"
+                },
+                {
+                  field: "sign1",
+                  title: "编辑",
+                  align: "center",
+                  templet: '<div style="height:auto!important;width:86px!important"><i class="layui-icon layui-icon-edit hover-sty"></i></div>',
+                  event: "setSign",
+                  minWidth: 120,
+                  style: "cursor: pointer;"
+                }
+              ]
+            ],
+            done: function (res, curr, count) {
+              console.log(count);
+            }
+
+          })
+
+
+        }
+
+        // 分页
+        function pageChange() {
+          laypage.render({
+          elem: 'pageAge',
+          count: currAll,
+          limit: 30,
+          layout: [ 'prev', 'page', 'next', 'limit', 'count', 'skip'],
+          curr: location.hash.replace('#!fenye=', ''), //获取hash值为fenye的当前页
+          hash: 'fenye', //自定义hash值
+          jump: function (obj, first) {
+            //obj包含了当前分页的所有参数，比如：
+            console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+            console.log(obj.limit); //得到每页显示的条数
+
+            //首次不执行
+            if (!first) {
+              //do something
+              if (sessionStorage.getItem('phone')) {
+                tableL(sessionStorage.getItem('phone'), '', obj.curr)
+              } else if(sessionStorage.getItem('value')) {
+                tableL('', sessionStorage.getItem('value'), obj.curr)
+              } else {
+                tableL('', '', obj.curr)
+              }
+              
+            }
+          }
+        });
+
+        }
+        pageChange()
+
+      }
+    );
+  </script>
+</body>
+
+</html>

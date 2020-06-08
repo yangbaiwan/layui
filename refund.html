@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>E-Bank Service 商户管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+    <style>
+        .gray{
+            height: 66px;
+            line-height: 66px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+            <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+            <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+                <div class="search-res">
+                    <div class="search-res-btn hide-pc">
+                        <button class="layui-btn" id="search-btn"><i class="layui-icon">&#xe615;</i>查询</button>
+                    </div>
+                    <div class="content-search search-fix" style="border: 0;">
+                        <div class="layui-form layui-form-pane layui-row" style="line-height: 60px;">
+                            <!-- <div class="layui-inline">
+                                <label class="layui-form-label">商品名称</label>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" placeholder="请输入商品名称">
+                                </div>
+                            </div> -->
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md2">
+                                <!-- <label class="layui-form-label">商品名称</label> -->
+                                <div class="layui-input-inline">
+                                    <img class="img-cp fl mr10" src="img/1.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                                <!-- <label class="layui-form-label">商品状态</label> -->
+                                <div class="layui-input-inline newlayui-input-inline" style="">
+                                    <input type="text" name="title" required lay-verify="required" placeholder=""
+                                        autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline  layui-col-xs12">
+                                <!-- <button class="layui-btn" lay-submit="">查询</button> -->
+                                <button class="layui-btn layui-btn-primary hide-pc" id="search-close">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="line-height: 40px;">
+                    <div class="layui-row">
+                        <div class="layui-col-xs6 layui-col-sm2 layui-col-md2">
+                            <label class="">今日新增人数</label>
+                            <span>10</span>
+                        </div>
+                        <div class="layui-col-xs6 layui-col-sm2 layui-col-md6">
+                            <label class="">今日新增人数</label>
+                            <span>10</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm4 layui-col-md4 layui-form">
+                            <select name="city" lay-verify="required">
+                                <option value="">筛选</option>
+                                <option value="0">保护期</option>
+                                <option value="1">关键期</option>
+                                <option value="2">失效期</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- 表格列表 -->
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line">
+                        <thead>
+                            <tr>
+                                <th>用户头像</th>
+                                <th>用户昵称</th>
+                                <th>退费来源</th>
+                                <th>承接人</th>
+                                <th>销售手机号</th>
+                                <th>退费原因</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="layui-table-first"><i class="layui-table-hd">用户头像</i><span class="layui-table-bd"><img
+                                            class="img-cp fl mr10" src="img/1.jpg" alt="">
+                                        <p class="gray">128G,红色</p>
+                                    </span></td>
+                                <td><i class="layui-table-hd">用户昵称</i><span class="layui-table-bd">Apple</span></td>
+                                <td><i class="layui-table-hd">退费来源</i><span class="layui-table-bd price">1000.00</span></td>
+                                <td><i class="layui-table-hd">承接人</i><span class="layui-table-bd">783</span></td>
+                                <td><i class="layui-table-hd">销售手机号</i><span class="layui-table-bd">888</span></td>
+                                <td><i class="layui-table-hd">退费原因</i><span class="layui-table-bd">已发布</span></td>
+                            </tr>
+                            <tr>
+                                <td class="layui-table-first"><i class="layui-table-hd">用户头像</i><span class="layui-table-bd"><img
+                                            class="img-cp fl mr10" src="img/1.jpg" alt="">
+                                        <p class="gray">128G,红色</p>
+                                    </span></td>
+                                <td><i class="layui-table-hd">用户昵称</i><span class="layui-table-bd">Apple</span></td>
+                                <td><i class="layui-table-hd">退费来源</i><span class="layui-table-bd price">1000.00</span></td>
+                                <td><i class="layui-table-hd">承接人</i><span class="layui-table-bd">783</span></td>
+                                <td><i class="layui-table-hd">销售手机号</i><span class="layui-table-bd">888</span></td>
+                                <td><i class="layui-table-hd">退费原因</i><span class="layui-table-bd">已发布</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页 -->
+                <div id="table-pages" class="tac"></div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            // 分页
+            laypage.render({
+                elem: 'table-pages',
+                count: 5,
+                layout: ['prev', 'page', 'next', 'count', 'skip'],
+                jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                    }
+                }
+            });
+
+
+            // 开始时间及截止时间
+            laydate.render({
+                elem: '#time',
+                range: true,
+                type: 'date' // 'month'  'date' 'datetime'
+                    ,
+                done: function (value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                },
+                trigger: 'click'
+            });
+
+            // 提现操作
+            $(document).on("click", ".a1", function () {
+                window.location.href = "提现操作.html"
+            });
+
+            // 提现详情
+            $(document).on("click", ".a2", function () {
+                window.location.href = "提现详情.html"
+            });
+
+            // 添加提现账户
+            $(document).on("click", ".add", function () {
+                window.location.href = "添加提现账户.html"
+            });
+
+            // 删除操作
+            $(document).on("click", ".a4", function () {
+                layer.confirm('您确认要删除该提现账户吗？', {
+                    title: '删除操作'
+                }, function (index) {
+                    layer.close(index);
+                    layer.msg('删除成功！', {
+                        time: 1000
+                    });
+                });
+            });
+
+
+            //判断是否成单
+            $(document).on('click', '#check', function () {
+                console.log(1);
+            })
+            layui.form.on('checkbox', function (data) {
+                console.log(data.elem); //得到checkbox原始DOM对象
+                console.log(data.elem.checked); //是否被选中，true或者false
+                console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+                console.log(data.othis); //得到美化后的DOM对象
+                if (data.elem.checked === true) {
+                    layer.open({
+                        title: '请输入此成单用户的手机号',
+                        content: '<div class="layui-input-inline"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></div>'
+                    });
+                }
+            });
+
+
+
+        });
+    </script>
+</body>
+
+</html>

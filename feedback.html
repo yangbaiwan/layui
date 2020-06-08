@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <style>
+        .select {
+            margin: 60px 0;
+            padding-left: 50px;
+        }
+
+        .textarea {
+            padding-left: 50px;
+        }
+
+        .btn-posi {
+            padding: 20px 0;
+            text-align: center;
+            width: 50%;
+
+        }
+
+        .aLink {
+            text-align: right;
+            color: #E75958;
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="layui-form layui-form-pane">
+                <div class="container">
+                    <div class="nav-sty">
+                        <span class="layui-breadcrumb">
+                            <a href="javascript:;">销售端展示</a>
+                            <a href="javascript:;">问题反馈</a>
+                        </span>
+                    </div>
+                    <div class="select">
+                        <!-- <label class="layui-form-label">商品状态</label> -->
+                        <div class="layui-input-inline">
+                            <select lay-verify="" id="select-year">
+                                <option value="0">问题类型反馈</option>
+                                <option value="1">撞单问题</option>
+                                <option value="2">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline textarea">
+                            <div class="">
+                                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea" rows="5" cols="40"></textarea>
+                                  </div>
+                    </div>
+
+                    <div class="btn-posi">
+                        <button class="layui-btn submit">确认提交</button>
+
+                    </div>
+                    <div class="aLink">
+                        <a href="./horFeedback.html" style="color: #E75958;">历史问题反馈</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+            if (parseInt(window.screen.width) < 768) {
+                $('.feedbackA').css('width', '200px!important')
+            }
+
+            $('.submit').on('click', function () {
+                if ($('#select-year').find("option:selected").val() == 0) {
+                    layer.msg('请选择要反馈问题的类型！')
+                } else if ($('.feedbackA').val().trim() == '') {
+                    layer.msg('请输入反馈原因！')
+                } else {
+                    $.ajax({
+                        url: "{:U('Frontline/feedBackAdd')}",
+                        type: 'POST',
+                        data: {
+                            feedType: $('#select-year').find("option:selected").val(),
+                            feedText: $('.feedbackA').val()
+                        },
+                        success: function (res) {
+                            if (res.state == 2000) {
+                                layer.msg('反馈成功，等待审核！')
+                            } else if(res.state == 4004) {
+                                layer.msg('问题反馈失败！');
+                            }
+                        }
+                    })
+                }
+            })
+
+
+        });
+    </script>
+</body>
+
+</html>

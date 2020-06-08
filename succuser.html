@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <style>
+        .imgStyle {
+            width: 12px;
+            position: absolute;
+            top: -5px;
+            right: -6px;
+        }
+
+        .hover-sty {
+            font-size: 35px;
+            color: #000000;
+            vertical-align: middle;
+        }
+
+        .layui-table-cell {
+            height: auto !important;
+        }
+
+        .iconPosi {
+            position: absolute;
+            top: 50%;
+            margin-top: -19px;
+        }
+
+        @media screen and (max-width: 992px) {
+            .img_box {
+                position: relative;
+                height: 60px;
+            }
+
+            .iconPosi {
+                /* position: absolute;
+            top: 50%;
+            margin-top: -19px; */
+                margin-top: 11px;
+            }
+            .margin-icon{
+                margin-top: 11px;
+            }
+            .img_con {
+                display: inline-block;
+                width: auto;
+                position: absolute;
+                left: 50%;
+                margin-left: -50px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">后端服务展示</a>
+                        <a href="javascript:;">成单用户</a>
+                    </span>
+                </div>
+                <div class="search-res">
+                    <div class="search-res-btn hide-pc">
+                        <button class="layui-btn" id="search-btn"><i class="layui-icon">&#xe615;</i>查询</button>
+                    </div>
+                    <div class="content-search search-fix" style="border: 0;">
+                        <div class="layui-form layui-form-pane layui-row" style="line-height: 60px;">
+
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md2 img_box">
+                                <!-- <label class="layui-form-label">商品名称</label> -->
+                                <div class="layui-input-inline img_con">
+                                    <img class="img-cp fl mr10 weixintouxiang" src="__PUBLIC__/img/default.png" alt="">
+                                    <span class="adminname">杨军</span>
+                                </div>
+                            </div>
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md8">
+                                <!-- <label class="layui-form-label">商品状态</label> -->
+                                <div class="layui-input-inline newlayui-input-inline" style="width: auto;">
+                                    <input type="text" name="title" id="iphone" required lay-verify="required"
+                                        placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-input-inline newlayui-input-inline"
+                                    style="position: relative;margin-left: -3px;width: auto;">
+                                    <button class="layui-btn margin-icon">
+                                        <i class="layui-icon layui-icon-search"></i>查询
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md2 tar">
+
+                                <button onclick="window.location.href='./notintrod.html'"
+                                    class="layui-btn layui-btn-fluid layui-btn-primary"
+                                    style="position: relative;">30天未转介绍的成员</button>
+
+                            </div>
+                            <div class="layui-inline  layui-col-xs12">
+                                <!-- <button class="layui-btn" lay-submit="">查询</button> -->
+                                <button class="layui-btn layui-btn-primary hide-pc" id="search-close">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="line-height: 40px;">
+                    <div class="layui-row">
+                        <div class="layui-col-xs6 layui-col-sm2 layui-col-md2">
+                            <label class="">总用户：</label>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="layui-col-xs6 layui-col-sm2 layui-col-md2">
+                            <label class="">今日新增用户：</label>
+                            <span class="jinCount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 表格列表 -->
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line"
+                        lay-data="{skin:'line', even:true, size:'sm'}" id="test" lay-filter="test"></table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                form = layui.form,
+                table = layui.table,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+
+            form.on('select(testSelect)', function (data) {
+                var elem = $(data.elem);
+                var trElem = elem.parents('tr');
+                var tableData = table.cache['test'];
+                // 更新到表格的缓存数据中，才能在获得选中行等等其他的方法中得到更新之后的值
+                tableData[trElem.data('index')][elem.attr('name')] = data.value;
+                // 其他的操作看需求 TODO
+                console.log(tableData[0].wdkidid);
+                console.log(data);
+                $.ajax({
+                    url: "{:U('Endserv/zhuanFuWu')}",
+                    type: 'POST',
+                    data: {
+                        keFuId: data.value,
+                        userId: tableData[0].wdkidid
+                    },
+                    success: function (res) {
+                        console,
+                            log(res);
+                    }
+                });
+            });
+
+            dataShow();
+            // 提现操作
+            function dataShow(phone, state) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Endserv/succUserDataSelect')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    height: 300,
+                    where: {
+                        phone: phone || '',
+                        state: state || ''
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'count': res.count,
+                            'jinCount': res.jinCount,
+                            'admin': res.admin
+                        }
+                    },
+                    size: 'lg',
+                    cols: [
+                        [{
+                            field: 'wdkidimg',
+                            // width: 80,
+                            title: '用户头像',
+                            templet: '<div><img style="width: 40%;" src="{{ d.wdkidimg}}"></div>',
+                            align: 'center',
+                            minWidth: 120,
+                            fixed: true,
+                        },
+                        {
+                            field: 'wdkidusername',
+                            minWidth: 120,
+                            align: 'center',
+                            title: '用户昵称',
+                            fixed: true,
+                        },
+                        {
+                            field: 'dingDanData',
+                            align: 'center',
+                            title: '成单日期',
+                            minWidth: 120,
+                            fixed: true,
+                        },
+                        {
+                            field: 'adminName',
+                            minWidth: 120,
+                            align: 'center',
+                            title: '成单销售',
+                            fixed: true,
+                        },
+                        {
+                            field: 'phone',
+                            minWidth: 120,
+                            align: 'center',
+                            title: '手机号',
+                            fixed: true,
+                            templet: function (res) {
+                                return res.phone.substring(0, 3) + '****' + res
+                                    .phone.substring(3, 7);
+                            },
+                            event: 'edit'
+                        },
+                        {
+                            field: 'kaiKeClass',
+                            title: '班级',
+                            align: 'center',
+                            minWidth: 120,
+                            fixed: true,
+                        },
+                        {
+                            field: 'beizhu',
+                            title: '历史备注',
+                            align: 'center',
+                            minWidth: 120,
+                            fixed: true,
+                        },
+                        {
+                            field: 'sign',
+                            title: '编辑/详情',
+                            templet: '<div style="height:auto!important;width:86px!important"><i class="hover-sty layui-icon layui-icon-edit" style="font-size: 24px; color: #000000;"></i></div>',
+                            event: 'setSign',
+                            minWidth: 120,
+                            align: 'center',
+                            fixed: true,
+                        },
+                        {
+                            field: 'sign',
+                            title: '退费',
+                            minWidth: 120,
+                            templet: '<div style="height:auto!important;width:86px!important"><button class="layui-btn">详情</button></div>',
+                            event: 'refund',
+                            align: 'center',
+                            fixed: true,
+                        },
+                        {
+                            field: 'sign',
+                            title: '转客服',
+                            align: 'center',
+                            minWidth: 120,
+                            templet: function (d) {
+                                // 模板的实现方式也是多种多样，这里简单返回固定的
+                                console.log(d.adminAll);
+                                var content = '';
+                                for (var i = 0; i < d.adminAll.length; i++) {
+                                    content += '<option value="' + d.adminAll[i].adminid +
+                                        '">' + d.adminAll[i].adminname + '</option>'
+
+                                }
+                                return '<select name="city" lay-filter="testSelect" lay-verify="required" data-value="' +
+                                    d.city + '" >' + content + '</select>';
+                            },
+                            event: 'zhuantro'
+                        }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        $('.adminname').text(res.admin.adminname)
+                        $('.weixintouxiang').attr('src', res.admin.weixintouxiang)
+                        $('.count').text(res.count)
+                        $('.jinCount').text(res.jinCount)
+
+                        count || this.elem.next('.layui-table-view').find('.layui-table-header')
+                            .css('overflow', '-webkit-paged-x');
+                        layui.each($('select'), function (index, item) {
+                            var elem = $(item);
+                            elem.val(elem.data('value')).parents('div.layui-table-cell')
+                                .css('overflow', 'visible');
+                        });
+                        form.render();
+
+
+                    }
+                });
+
+            }
+
+
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event == 'setSign') {
+                    console.log(obj.data);
+                    sessionStorage.setItem('successDetail', JSON.stringify(obj.data));
+                    location.href = 'successDetail.html';
+
+                }
+                if (obj.event === 'edit') {
+                    if ($(this).children().text().substr(3, 1) == '*') {
+                        $(this).children().text(data.phone)
+                        $(this).parent().siblings().map(function (i, val, arr) {
+                            if (val.childNodes[4].children[0].innerText.length == 11 && val
+                                .childNodes[4].children[0].innerText.substr(3, 1) != '*') {
+                                val.childNodes[4].children[0].innerText = val.childNodes[4]
+                                    .dataset
+                                    .content.substring(0, 3) + '****' +
+                                    val.childNodes[4].dataset.content.substring(7, 12);
+                            } else {
+
+                            }
+
+                        })
+
+                    } else {
+                        if (data.phone != '' && data.phone != null) {
+                            $(this).children().text(data.phone.substring(0, 3) + '****' + data
+                                .phone
+                                .substring(7, 12));
+
+                        }
+
+                    }
+
+                }
+
+            })
+
+            $('.iconPosi').on('click', function () {
+                var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                var iphone = $('#iphone').val();
+                if (myreg.test(iphone)) {
+
+                    table.render({
+                        elem: '#test',
+                        url: "{:U('Endserv/phoneSelectData')}",
+                        method: 'POST',
+                        limits: [30],
+                        limit: 30,
+                        where: {
+                            phone: iphone || ''
+                        },
+                        parseData: function (res) {
+                            var arr = [];
+                            if (res.state == 2000) {
+                                var detailData = arr.push(res.data);
+                                console.log(res);
+                                return {
+                                    'code': 0,
+                                    'data': arr,
+                                    'count': 1,
+                                    'state': res.state
+                                }
+                            } else {
+                                return {
+                                    'code': 0,
+                                    'count': 0,
+                                    'state': res.state
+                                }
+                            }
+
+                        },
+                        page: false,
+                        cols: [
+                            [{
+                                field: 'wdkidimg',
+                                minWidth: 120,
+                                title: '用户头像',
+                                templet: '<div><img style="width: 40%;" src="{{ d.wdkidimg}}"></div>',
+                                align: 'center',
+                            },
+                            {
+                                field: 'wdkidusername',
+                                minWidth: 120,
+                                align: 'center',
+                                title: '用户昵称'
+                            },
+                            {
+                                field: 'dingDanData',
+                                align: 'center',
+                                title: '成单日期'
+                            },
+                            {
+                                field: 'adminName',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '成单销售'
+                            },
+                            {
+                                field: 'phone',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '手机号'
+                            },
+                            {
+                                field: 'kaiKeClass',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '班级'
+                            },
+                            {
+                                field: 'beizhu',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '历史备注'
+                            },
+                            {
+                                field: 'sign',
+                                align: 'center',
+                                title: '编辑/详情',
+                                templet: '<div style="height:auto!important;width:86px!important"><i class="hover-sty layui-icon layui-icon-edit" style="font-size: 24px; color: #000000;"></i></div>',
+                                event: 'setSign',
+                                minWidth: 120
+                            }
+                            ]
+                        ],
+                        page: true,
+                        done: function (res, curr, count) {
+                            console.log(res);
+                            if (res.state == 4000) {
+                                layer.msg('查询的用户没有成单记录');
+                            }
+
+                        }
+                    });
+
+                } else {
+                    layer.msg('请输入正确的手机号')
+                }
+            })
+
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

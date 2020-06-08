@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+
+    <style>
+        .new-layui-form-label {
+            border: 0 !important;
+            border-style: none;
+        }
+
+        .new-div-inline {
+            /* height: 38px;
+            vertical-align: text-bottom;
+            line-height: 38px; */
+        }
+
+        .new-btn {
+            vertical-align: text-bottom;
+        }
+
+        .content-search {
+            padding-bottom: 0;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">销售端展示</a>
+                        <a href="./seaspool.html">公海池</a>
+                        <a href="javascript:;">销售申请</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+                <div class="search-res">
+                    <div class="search-res-btn hide-pc">
+                        <button class="layui-btn" id="search-btn"><i class="layui-icon">&#xe615;</i>查询</button>
+                    </div>
+                    <div class="content-search search-fix" style="border: 0;">
+                        <div class="layui-form layui-form-pane layui-row" style="line-height: 38px;">
+
+                            <div class="layui-col-xs6 layui-col-sm2 layui-col-md4">
+                                <label class="">待审批：</label>
+                                <div class="layui-input-inline new-div-inline">
+                                    <span class="num">12</span>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs12">
+                                <button class="layui-btn layui-btn-primary hide-pc" id="search-close">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test"></table>
+                </div>
+                <!-- 分页 -->
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                form = layui.form,
+                laypage = layui.laypage,
+                table = layui.table,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            dataShow();
+
+            function dataShow(phone) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Middle/liuLiangList')}",
+                    method: 'POST',
+                    limit: 30,
+                    where: {
+                        phone: phone || ''
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'num': res.count,
+                            'count': res.num
+                        }
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['prev', 'page', 'next'],
+                        groups: 1,
+                        first: false,
+                        last: false, //不显示尾页,
+                        limits: []
+
+                    },
+                    cols: [
+                        [{
+                                field: 'adminName',
+                                align: 'center',
+                                title: '申请人'
+                            },
+                            {
+                                field: 'adminPhone',
+                                align: 'center',
+                                title: '手机号',
+                                templet: function (res) {
+                                    return res.adminPhone !== null && res.adminPhone!== '' ?res.adminPhone.substring(0, 3) + '****' + res
+                                        .adminPhone.substring(3, 7) : '';
+
+                                },
+                                event: 'edit'
+                            },
+                            {
+                                field: 'shenNum',
+                                align: 'center',
+                                title: '申请人数'
+                            },
+                            {
+                                field: 'xiaodate',
+                                align: 'center',
+                                title: '申请日期',
+                                templet: function (res) {
+                                    return res.xiaodate !== null && res.xiaodate !== '' ? res.xiaodate.split(' ')[0] : '';
+                                }
+                            },
+                            {
+                                field: 'yuanYin',
+                                align: 'center',
+                                title: '申请原因',
+                                templet: function (d) {
+                                    if (d.yuanYin == false) {
+                                        return ''
+                                    } else {
+                                        return d.yuanYin
+                                    }
+                                }
+                            },
+                            {
+                                field: 'xiaostate',
+                                align: 'center',
+                                title: '是否同意',
+                                templet: "#radioTpl"
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        if (res.state == 3000) {
+                            layer.msg('您没有权限，访问数据！')
+                        }
+                        $('.num').text(res.num);
+                    }
+                });
+
+            }
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    if ($(this).children().text().substr(3, 1) == '*') {
+                        $(this).children().text(data.adminPhone)
+                        $(this).parent().siblings().map(function (i, val, arr) {
+                            if (val.childNodes[1].children[0].innerText.length == 11 && val
+                                .childNodes[1].children[0].innerText.substr(3, 1) != '*') {
+                                val.childNodes[1].children[0].innerText = val.childNodes[1]
+                                    .dataset
+                                    .content.substring(0, 3) + '****' +
+                                    val.childNodes[1].dataset.content.substring(7, 12);
+                            } else {
+
+                            }
+
+                        })
+
+                    } else {
+                        if (data.adminPhone != '' && data.adminPhone != null) {
+                            $(this).children().text(data.adminPhone.substring(0, 3) + '****' + data
+                                .adminPhone
+                                .substring(7, 12));
+
+                        }
+
+                    }
+
+                }
+
+            })
+
+            form.on("checkbox(radiodemo)", function (obj) {
+                // this.value == 1 ? 
+                console.log(this);
+                console.log($(this).attr('lay-id'))
+                // $(this).prop('disabled', true);
+                history.go(0);
+                $.ajax({
+                    url: "{:U('Middle/liuLiangShenPi')}",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        xiaoId: $(this).attr('lay-id')
+                    },
+                    success: function (res) {
+
+                    }
+                });
+                setTimeout(function () {
+                    layer.msg('状态修改成功！');
+                }, 500);
+
+            });
+
+
+
+
+
+        });
+    </script>
+    <script type="text/html" id="radioTpl">
+        <input type="checkbox" name="sexRadio" value="{{d.xiaostate}}" lay-id="{{d.xiaoid}}" title=" "
+            lay-skin="primary" lay-filter="radiodemo" {{ d.xiaostate == "1" ? "checked" : "" }}
+            {{ d.xiaostate == "1" ? "disabled" : "" }}>
+    </script>
+</body>
+
+</html>

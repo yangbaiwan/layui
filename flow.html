@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>layui响应式管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+    <style>
+        .lineheight {
+            line-height: 66px;
+        }
+
+        .imgStyle {
+            width: 20px;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+        }
+
+        .iconPosi {
+            position: absolute;
+            top: 50%;
+            margin-top: -19px;
+        }
+
+        .layui-input {
+            display: inline-block;
+            width: auto;
+        }
+
+        .layui-row:after,
+        .layui-row:before {
+            content: unset;
+        }
+
+        .span-style {
+            float: left;
+            display: block;
+            padding: 9px 15px;
+            width: 80px;
+            font-weight: 400;
+            line-height: 20px;
+        }
+        .clear{
+            overflow: auto;
+        }
+        .word {
+            color: #E75958;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">销售端展示</a>
+                        <a href="javascript:;">流量申请</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+
+                <div class="" style="line-height: 60px;">
+                    <div class="layui-row">
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md2">
+                            <label class="">历史申请人数</label>
+                            <span>10</span>
+                        </div>
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md2">
+                            <label class="">正在申请中</label>
+                            <span>10</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" style="text-align: center;">
+                            <div class="layui-input-inline newlayui-input-inline" style="width: auto;">
+                                <input type="text" name="title" required lay-verify="required" placeholder="请输入手机号"
+                                    autocomplete="off" class="layui-input">
+
+                            </div>
+                            <div class="layui-input-inline newlayui-input-inline"
+                                style="position: relative;margin-left: -3px;width: auto;">
+                                <button class="layui-btn iconPosi">
+                                    <i class="layui-icon layui-icon-search"></i>查询
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md2" style="text-align: right;">
+                            <button class="layui-btn layui-btn-primary applic" style="position: relative;">我要申请<img
+                                    class="imgStyle" src="__PUBLIC__/img/lingdang.png" alt=""></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 表格列表 -->
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line">
+                        <thead>
+                            <tr>
+                                <th>用户信息</th>
+                                <th>微信号</th>
+                                <th>手机号(选填)</th>
+                                <th>历史销售</th>
+                                <th>历史备注</th>
+                                <th>来源</th>
+                                <th>我的备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="layui-table-first"><i class="layui-table-hd">用户信息</i><span
+                                        class="layui-table-bd lineheight"><img class="img-cp fl mr10"
+                                            src="__PUBLIC__/img/default.png" alt="">杨哥</span></td>
+                                <td><i class="layui-table-hd">微信号</i><span class="layui-table-bd price">1000.00</span>
+                                </td>
+                                <td><i class="layui-table-hd">手机号(选填)</i><span class="layui-table-bd">783</span></td>
+                                <td><i class="layui-table-hd">历史销售</i><span class="layui-table-bd">888</span></td>
+                                <td><i class="layui-table-hd">历史备注</i><span class="layui-table-bd">已发布</span></td>
+                                <td><i class="layui-table-hd">来源</i><span class="layui-table-bd">2017-09-19</span></td>
+                                <td><i class="layui-table-hd">我的备注</i><span class="layui-table-bd">2017-09-19</span>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="layui-table-first"><i class="layui-table-hd">用户信息</i><span
+                                        class="layui-table-bd lineheight"><img class="img-cp fl mr10"
+                                            src="__PUBLIC__/img/default.png" alt="">杨哥</span></td>
+                                <td><i class="layui-table-hd">微信号</i><span class="layui-table-bd price">1000.00</span>
+                                </td>
+                                <td><i class="layui-table-hd">手机号(选填)</i><span class="layui-table-bd">783</span></td>
+                                <td><i class="layui-table-hd">历史销售</i><span class="layui-table-bd">888</span></td>
+                                <td><i class="layui-table-hd">历史备注</i><span class="layui-table-bd">已发布</span></td>
+                                <td><i class="layui-table-hd">来源</i><span class="layui-table-bd">2017-09-19</span></td>
+                                <td><i class="layui-table-hd">我的备注</i><span class="layui-table-bd">2017-09-19</span>
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页 -->
+                <div id="table-pages" class="tac"></div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            // 分页
+            laypage.render({
+                elem: 'table-pages',
+                count: 5,
+                layout: ['prev', 'page', 'next', 'count', 'skip'],
+                jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                    console.log(obj.limit); //得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                    }
+                }
+            });
+
+            $('.iconPosi').on('click', function () {
+                alert(1);
+            })
+
+            //我要申请
+            $('.applic').on('click', function () {
+                layer.open({
+                    title: '',
+                    content: '<div class=""><div style="margin-bottom: 10px;"><label class="layui-form-label">申请人数: </label><input type="text" id="layer-per" name="title" placeholder="" autocomplete="off" class="layui-input"><span style="margin-left: 10px;">一次只能申请10人</span></div><div><label class="layui-form-label">申请人数: </label><textarea name="desc" placeholder="请输入留言" class="layui-textarea" style="width: 215px;display: inline-block;"></textarea></div></div>',
+                    btn: ['确定', '取消'],
+                    area: '500px',
+                    yes: function (index, layero) {
+                        if ($('#layer-per').val() > 10) {
+                            layer.msg('申请人数超过十人！', {
+                                type: 1
+                            }, function (index) {
+                                layer.close(index);
+                            });
+                            return true;
+                        } else {
+                            layer.close(index);
+                            layer.open({
+                                title: '',
+                                content: '<div class=""><div class="clear"><label class="layui-form-label">申请时间: </label><span class="span-style">2019-10-10</span></div><div class="clear"><label class="layui-form-label">申请人数: </label><span class="span-style">10人</span></div><div class="word">正在申请中请耐心等待</div></div>',
+                                btn: ['知道了'],
+                                area: '500px',
+                                yes: function (index, layero) {
+                                    if ($('#layer-per').val() > 10) {
+                                        layer.msg('申请人数超过十人！', {
+                                            type: 1
+                                        }, function (index) {
+                                            layer.close(index);
+                                        });
+                                        return true;
+                                    } else {
+                                        layer.close(index);
+
+
+                                    }
+
+                                },
+                                btn2: function (index, layero) {},
+                                cancel: function () {}
+                            });
+
+                        }
+
+                    },
+                    btn2: function (index, layero) {},
+                    cancel: function () {}
+                });
+            });
+            // 开始时间及截止时间
+            laydate.render({
+                elem: '#time',
+                range: true,
+                type: 'date' // 'month'  'date' 'datetime'
+                    ,
+                done: function (value, date, endDate) {
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(
+                        date
+                        ); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                },
+                trigger: 'click'
+            });
+
+
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon"/>
+    
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <!-- <link rel="stylesheet" href="__PUBLIC__/login/css/style.css" />
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" /> -->
+    <link rel="stylesheet" href="__PUBLIC__/login/css/style.css" />
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <style>
+        .layui-form-item {
+    color: white;
+}
+.btnPosi {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #009688;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 70px;
+    box-sizing: content-box;
+    text-align: center;
+}
+.select-width {
+    width: 34%;
+    display: inline-block;
+    margin: 0;
+} 
+.layui-input-inline{
+    width: 190px;
+}
+.layui-input-block1{
+    margin-left: 0; 
+} 
+.layui-row:after, .layui-row:before{
+    display:inline-block;
+}
+.foorter-btn {
+    width: 200px;
+    margin-top: 30px;
+}
+.login {
+    height: 330px;
+    margin-left: -225px;
+    margin-top: -165px;
+}
+.logo-img{
+    width: 400px;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -330px;
+    margin-left: -225px;
+}
+.logo-img img {
+    width: 100%;
+}
+
+@media screen and (max-width: 992px){
+    .login{
+        width:96%;
+        margin: 0;
+        height: auto;
+        background:transparent;
+        -webkit-transform:translate(-50%, -50%);
+    }
+    .logo-img {
+        width: 250px;
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-top: -200px;
+        margin-left: -125px;
+}
+    .logo-img img {
+        width: 100%;
+    }
+    .logo {
+        width: auto;
+    }
+    
+}
+    </style>
+</head>
+
+<body class="body_bj">
+    <div class="logo-img">
+        <img src="__PUBLIC__/login/img/logo.png" alt="">
+    </div>
+    <div class="login">
+        <div class="logo">
+            忘记密码
+        </div>
+        <form class="layui-form" action="" style="width: 90%;">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block">
+                    <input type="text" id="tel"  onkeyup="this.value=this.value.replace(/\s+/g,'')" name="adminPhone" required lay-verify="required|phone|number"
+                        placeholder="请输入手机号" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: none;">
+                <div class="layui-input-block">
+                    <input type="text" id="adminId" name="adminId" required lay-verify="" placeholder="" autocomplete="off"
+                        class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item" style="display: none;">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="type" lay-verify="type" required lay-verify="required" maxlength="5"
+                        placeholder="请输入姓名" autocomplete="off" class="layui-input" value="2" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">重置密码</label>
+                <div class="layui-input-block">
+                    <input type="password"  onkeyup="this.value=this.value.replace(/\s+/g,'')" name="adminPass" maxlength="20" required lay-verify="required|adminPass"
+                        placeholder="请输入密码" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">获取验证码</label>
+                <div class="layui-input-block" style="position: relative;">
+                    <input type="text" name="code"  onkeyup="this.value=this.value.replace(/\s+/g,'')" required lay-verify="required|number" placeholder="请输入验证码"
+                        autocomplete="off" class="layui-input" style="position: relative;width: 46%;" />
+                    <button type="button" class="btnPosi layui-btn">获取验证码</button>
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block layui-row">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="formDemo">完成</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/particles.min.js"></script>
+    <script type="text/javascript">
+        layui.use(['form', 'jquery'], function () {
+            var form = layui.form,
+                $ = layui.jquery;
+
+            form.verify({
+                adminPass: [/^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/, '密码只能输入5-20个以字母开头、可带数字、“_”、“.”的组合']
+            });
+            function setCookie(key, val, time) { //设置cookie方法
+				var date = new Date(); //获取当前时间
+				var expiresDays = time; //将date设置为n天以后的时间
+				date.setTime(date.getTime() + expiresDays * 24 * 3600 * 1000); //格式化为cookie识别的时间
+				document.cookie = key + "=" + val + ";expires=" + date.toGMTString() + ";path=/"; //设置cookie
+			};
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                console.log(data);
+                $.ajax({
+                    url: "{:U('Login/adminRegister')}",
+                    type: 'POST',
+                    data: data.field,
+                    success: function (res) {
+                        if (res.state == 2000) {
+                            layer.msg('修改成功,登录中!');
+                            $.ajax({
+                                url: "{:U('Login/loginVerif')}",
+                                type: 'POST',
+                                data: data.field,
+                                success: function (res) {
+                                    if (res.state == 2000) {
+                                        setCookie('success', data.field.adminPhone,
+                                            1);
+                                        sessionStorage.setItem('dataId', 1);
+                                        window.location.href =
+                                            "{:U('Index/index')}"
+
+                                    } else if (res.state == 4001) {
+                                        layer.msg('账号或密码输入不正确!');
+                                    } else if (res.state == 4004) {
+                                        layer.msg('用户未注册!');
+                                    } else if (res.state == 2001) {
+                                        layer.msg('登录成功，未绑定微信!');
+                                        setCookie('success', data.field.adminPhone,
+                                            1);
+                                        setTimeout(function () {
+                                            window.location.href =
+                                                "{:U('Login/adminWeiXin')}"
+                                        }, 1000)
+                                    }
+                                }
+                            });
+                        } else if (res.state == 3000) {
+                            layer.msg('修改失败!');
+                        } else if (res.state == 4004) {
+                            layer.msg('验证码不正确!');
+                        } else if (res.state == 4001) {
+                            layer.msg('此手机号码已经注册!');
+                        }
+                    }
+                });
+                return false;
+            });
+            //监听提交
+
+            function isPoneAvailable(a) {
+                var myreg = /^[1][3,4,6,5,7,8,9][0-9]{9}$/;
+                if (!myreg.test(a)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            var time = 60;
+
+            function settime() {
+
+                if (time == 0) {
+                    $('.btnPosi').text('获取验证码');
+                    $('.btnPosi').attr('disabled', false);
+                    time = 60;
+                    return false;
+                } else {
+                    $('.btnPosi').attr('disabled', true);
+                    $('.btnPosi').text(time-- + 's');
+                }
+
+                setTimeout(function () {
+                    settime();
+                }, 1000);
+            }
+
+            $('.btnPosi').on('click', function () {
+                var tel = $("#tel").val();
+                var re = new RegExp('^[ ]+$');
+                if (tel != '' || re.test(tel)) {
+                    console.log($("input[name^='code']").val())
+                    if (isPoneAvailable(tel)) {
+                        $.ajax({
+                            url: "{:U('Login/wangPhoneHuoQuYanZhengMa')}",
+                            type: 'POST',
+                            data: {
+                                adminPhone: tel
+                            },
+                            success: function name(data) {
+                                console.log(data);
+                                if (data.state == 2000) {
+                                    layer.msg('验证码发送成功!');
+                                    $('#adminId').val(data.adminId);
+                                    layui.use('form', function () {
+                                        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+                                        form.render();
+                                    });
+                                    settime();
+                                } else if (data.state == 4001) {
+                                    layer.msg('此手机号未注册!');
+                                } else if (data.state == 3001) {
+                                    layer.msg('操作频繁!')
+                                } else if (data.state == 3000) {
+                                    layer.msg('验证码发送失败!');
+                                }
+                            }
+                        })
+                    } else {
+                        layer.msg('请输入正确的手机号码!');
+                    }
+
+                } else {
+                    layer.msg('请输入手机号码!');
+                }
+
+            })
+        });
+    </script>
+</body>
+
+</html>

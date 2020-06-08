@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>CRM管理系统</title>
+	<link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+
+	<meta charset="UTF-8">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+		name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<link rel="stylesheet" href="__PUBLIC__/login/css/style.css" />
+	<link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+	<!-- <link rel="stylesheet" href="login/css/style.css" />
+	<link rel="stylesheet" href="layui/css/layui.css" /> -->
+	<style>
+		.ie-content {
+			position: fixed;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			background: #fff;
+			z-index: 1000;
+		}
+
+		.ie-content-bj {
+			width: 1000px;
+			height: 380px;
+			position: fixed;
+			left: 50%;
+			top: 36%;
+			margin: -190px 0 0 -500px;
+			background: url(img/sj.jpg) no-repeat;
+		}
+
+		.ie-list {
+			padding: 168px 0 0 371px;
+		}
+
+		.ie-list a {
+			margin-right: 80px;
+		}
+
+		#particles-js {
+			width: 100%;
+			height: 100%;
+			/* background: #000; */
+			background-size: cover;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+		}
+
+		a {
+			color: #fff !important;
+		}
+
+		.liStyle {
+			text-align: center;
+			margin-top: 80px;
+		}
+
+		.liStyle-div {
+			color: #fff;
+			position: relative;
+
+		}
+
+		.liStyle-div-i {
+			position: absolute;
+			top: 40px;
+			left: 50%;
+			margin-left: -15.5px;
+		}
+
+		.login {
+			height: 300px;
+			margin: -150px 0 0 -225px;
+
+		}
+
+		.logo-img {
+			width: 400px;
+			font-size: 18px;
+			color: #fff;
+			text-align: center;
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			margin-top: -330px;
+			margin-left: -225px;
+		}
+
+		.logo-img img {
+			width: 100%;
+		}
+
+		.layui-input-block {
+			margin-left: 0;
+		}
+
+		.disNone {
+			display: inline-block !important;
+			width: 100%;
+		}
+
+		.disBloc {
+			display: none !important;
+			width: 100%;
+		}
+		.layui-btn {
+			width: 106px;
+		}
+		@media screen and (max-width: 992px) {
+			.login {
+				width: 96%;
+				margin: 0;
+				height: auto;
+				background: transparent;
+				-webkit-transform: translate(-50%, -50%);
+			}
+
+			.logo-img {
+				width: 250px;
+				text-align: center;
+				position: fixed;
+				left: 50%;
+				top: 50%;
+				margin-top: -200px;
+				margin-left: -125px;
+			}
+
+			.logo-img img {
+				width: 100%;
+			}
+
+			.logo {
+				width: auto;
+			}
+
+			.btnPosi {
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+			 
+		}
+	</style>
+	<!-- 提示升级高级浏览器操作 -->
+</head>
+
+<body class="body_bj">
+	<div id="particles-js">
+		<div class="logo-img">
+			<img src="__PUBLIC__/login/img/logo.png" alt="">
+			<!-- <img src="login/img/logo.png" alt=""> -->
+		</div>
+		<div class="login">
+			<div class="logo">
+				用户登录
+			</div>
+			<ul class="login-list">
+				<form class="layui-form" action="">
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<input type="text" name="adminPhone" id="tel"  onkeyup="this.value=this.value.replace(/\s+/g,'')" required lay-verify="required|phone|number"
+								placeholder="请输入手机号" autocomplete="off" class="layui-input" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<input type="password" name="adminPass"  onkeyup="this.value=this.value.replace(/\s+/g,'')" maxlength="20" required
+								lay-verify="required|adminPass" placeholder="请输入密码" autocomplete="off"
+								class="layui-input" />
+						</div>
+					</div>
+					<div class="layui-form-item layCode disBloc">
+						<div class="layui-input-block" style="position: relative;">
+							<input type="text" name="code" id="code"  onkeyup="this.value=this.value.replace(/\s+/g,'')" required lay-verify="required|number" placeholder="请输入验证码"
+								autocomplete="off" class="layui-input" style="position: relative;width: 46%;" />
+							<button type="button" class="btnPosi layui-btn"
+								style="position: absolute;right: 0;top: 0;">获取验证码</button>
+
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block layui-row">
+							<button class="layui-btn layui-btn-fluid" style="width: 100%;" lay-submit lay-filter="formDemo">登录</button>
+						</div>
+					</div>
+				</form>
+				<li class="">
+					<a style="text-algin: left" href="reg.html">注册</a>
+					<a style="float: right;" href="forget.html">忘记密码</a>
+				</li>
+
+
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/particles.min.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script> -->
+	<!-- <script>eruda.init();</script> -->
+	<!-- <script type="text/javascript" src="layui/layui.js"></script>
+	<script type="text/javascript" src="js/particles.min.js"></script>
+	<script type="text/javascript" src="js/particles.min.js"></script> -->
+	<script type="text/javascript">
+		layui.use(['jquery', 'layer', 'form'], function () {
+			var $ = layui.jquery,
+				form = layui.form,
+				layer = layui.layer;
+			form.verify({
+				adminName: [/^[a-zA-Z\u4e00-\u9fa5]+$/, '请输入五个以内的中文或英文组合'],
+				adminPass: [/^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/, '只能输入5-20个以字母开头、可带数字、“_”、“.”的组合']
+
+			});
+
+			function setCookie(key, val, time) { //设置cookie方法
+				var date = new Date(); //获取当前时间
+				var expiresDays = time; //将date设置为n天以后的时间
+				date.setTime(date.getTime() + expiresDays * 24 * 3600 * 1000); //格式化为cookie识别的时间
+				document.cookie = key + "=" + val + ";expires=" + date.toGMTString() + ";path=/"; //设置cookie
+			};
+
+			function clearCookie() {
+				var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+				if (keys) {
+					for (var i = keys.length; i--;)
+						document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+				}
+			}
+			//判断是否需要验证码
+			$.ajax({
+				url: "{:U('Login/loginShow')}",
+				type: 'POST',
+				data: {},
+				success: function (res) {
+					console.log(res)
+					if (res.start == 'true') {
+						//you 
+						$('.layCode').addClass('disBloc')
+						$('.layCode').removeClass('disNone')
+						$('#code').val(123456);
+					} else {
+						$('.layCode').addClass('disNone')
+						$('.layCode').removeClass('disBloc')
+					}
+				}
+			})
+			function isPoneAvailable(a) {
+                var myreg = /^[1][3,4,6,5,7,8,9][0-9]{9}$/;
+                if (!myreg.test(a)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+			var time = 60;
+
+			function settime() {
+
+				if (time == 0) {
+					$('.btnPosi').text('获取验证码');
+					$('.btnPosi').attr('disabled', false);
+					time = 60;
+					return false;
+				} else {
+					$('.btnPosi').attr('disabled', true);
+					$('.btnPosi').text(time-- + 's');
+				}
+
+				setTimeout(function () {
+					settime();
+				}, 1000);
+			}
+
+			$('.btnPosi').on('click', function () {
+				var tel = $("#tel").val();
+				var re = new RegExp('^[ ]+$');
+				if (tel != '' || re.test(tel)) {
+					console.log($("input[name^='code']").val())
+					if (isPoneAvailable(tel)) {
+						$.ajax({
+							url: "{:U('Login/wangPhoneHuoQuYanZhengMa')}",
+							type: 'POST',
+							data: {
+								adminPhone: tel
+							},
+							success: function name(data) {
+								console.log(data);
+								if (data.state == 2000) {
+									layer.msg('验证码发送成功!');
+
+									settime();
+								} else if (data.state == 4001) {
+									layer.msg('此手机号未注册!');
+								} else if (data.state == 3001) {
+									layer.msg('5分钟内发送多次!')
+								} else if (data.state == 3000) {
+									layer.msg('验证码发送失败!');
+								}
+							}
+						})
+					} else {
+						layer.msg('请输入正确的手机号码!');
+					}
+
+				} else {
+					layer.msg('请输入手机号码!');
+				}
+
+			})
+
+			form.on('submit(formDemo)', function (data) {
+				$.ajax({
+					url: "{:U('Login/loginVerif')}",
+					type: 'POST',
+					data: data.field,
+					success: function (res) {
+						if (res.state == 2000) {
+							setCookie('success', data.field.adminPhone, 1);
+							sessionStorage.setItem('dataId', 1);
+							window.location.href = "{:U('Index/index')}"
+
+						} else if (res.state == 4001) {
+							layer.msg('账号或密码输入不正确!');
+						} else if (res.state == 4004) {
+							layer.msg('用户未注册!');
+						} else if (res.state == 2001) {
+							layer.msg('登录成功，未绑定微信!');
+							setCookie('success', data.field.adminPhone, 1);
+							setTimeout(function () {
+								window.location.href = "{:U('Login/adminWeiXin')}"
+							}, 1000)
+						}
+					}
+				});
+
+				return false;
+			});
+
+		});
+	</script>
+	<script>
+		particlesJS('particles-js', {
+			"particles": {
+				"number": {
+					"value": 40, //数量
+					"density": {
+						"enable": true,
+						"value_area": 800
+					}
+				},
+				"color": {
+					"value": "#ffffff"
+				},
+				"shape": {
+					"type": "circle",
+					"stroke": {
+						"width": 0,
+						"color": "#000000"
+					},
+					"polygon": {
+						"nb_sides": 5
+					},
+					"image": {
+						"src": "img/github.svg",
+						"width": 100,
+						"height": 100
+					}
+				},
+				"opacity": {
+					"value": 0.3,
+					"random": false,
+					"anim": {
+						"enable": false,
+						"speed": 1,
+						"opacity_min": 0.1,
+						"sync": false
+					}
+				},
+				"size": {
+					"value": 3,
+					"random": true,
+					"anim": {
+						"enable": false,
+						"speed": 40,
+						"size_min": 0.1,
+						"sync": false
+					}
+				},
+				"line_linked": {
+					"enable": true,
+					"distance": 150,
+					"color": "#ffffff",
+					"opacity": 0.4,
+					"width": 1
+				},
+				"move": {
+					"enable": true,
+					"speed": 1,
+					"direction": "none",
+					"random": false,
+					"straight": false,
+					"out_mode": "out",
+					"bounce": false,
+					"attract": {
+						"enable": false,
+						"rotateX": 600,
+						"rotateY": 1200
+					}
+				}
+			},
+			"interactivity": {
+				"detect_on": "canvas",
+				"events": {
+					"onhover": {
+						"enable": true,
+						"mode": "grab"
+					},
+					"onclick": {
+						"enable": false,
+						"mode": "push"
+					},
+					"resize": true
+				},
+				"modes": {
+					"grab": {
+						"distance": 150,
+						"line_linked": {
+							"opacity": 1
+						}
+					},
+					"bubble": {
+						"distance": 400,
+						"size": 40,
+						"duration": 2,
+						"opacity": 8,
+						"speed": 3
+					},
+					"repulse": {
+						"distance": 200,
+						"duration": 0.4
+					},
+					"push": {
+						"particles_nb": 4
+					},
+					"remove": {
+						"particles_nb": 2
+					}
+				}
+			},
+			"retina_detect": false
+		});
+	</script>
+
+</body>
+
+</html>

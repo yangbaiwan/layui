@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+
+    <style>
+        .new-layui-form-label {
+            border: 0 !important;
+            border-style: none;
+        }
+
+        .new-div-inline {}
+
+        .new-btn {
+            vertical-align: text-bottom;
+        }
+
+        .content-search {
+            padding-bottom: 0;
+        }
+
+        .layui-table-cell {
+            height: 38px;
+        }
+
+        .diy-btn {
+            box-sizing: content-box;
+            position: relative;
+        }
+
+        .iconPosi {
+            vertical-align: bottom;
+        }
+
+        .word {
+            color: #E75958;
+            text-align: center;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .layui-form-label {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">销售端展示</a>
+                        <a href="javascript:;">问题反馈</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+
+                <div class="search-res">
+                    <div class="layui-form layui-form-pane layui-row" style="line-height: 38px;height: 38px;">
+
+                        <div class=" layui-col-xs6 layui-col-sm2 layui-col-md4">
+                            <label class="">问题总数：</label><span class="count">0</span>
+                        </div>
+
+                        <div class=" layui-col-xs6 layui-col-sm6 layui-col-md4">
+                            <label class="">今日新增：</label><span class="jinCount">0</span>
+                            
+                        </div>
+
+
+                        <div class="layui-col-xs12">
+                            <button class="layui-btn layui-btn-primary hide-pc" id="search-close">关闭</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test"></table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                table = layui.table,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+           
+            //判断是否成单
+            $(document).on('click', '#check', function () {
+                console.log(1);
+            })
+            layui.form.on('checkbox', function (data) {
+                console.log(data.elem); //得到checkbox原始DOM对象
+                console.log(data.elem.checked); //是否被选中，true或者false
+                console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+                console.log(data.othis); //得到美化后的DOM对象
+                if (data.elem.checked === true) {
+                    layer.open({
+                        title: '请输入此成单用户的手机号',
+                        content: '<div class="layui-input-inline"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></div>'
+                    });
+                }
+            });
+
+            dataShow();
+
+            function dataShow(phone) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Middle/wenTiShow')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    where: {
+                        phone: phone || ''
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'count': res.count,
+                            'jinCount': res.jinCount
+                        }
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    cols: [
+                        [{
+                                field: 'adminName',
+                                // width: 80,
+                                title: '销售昵称',
+                                align: 'center',
+                                minWidth: 120,
+                            },
+                            {
+                                field: 'xiaodate',
+                                minWidth: 120,
+                                align: 'center',
+                                // width: 80,
+                                title: '反馈日期'
+                            },
+                            {
+                                field: 'typeId',
+                                align: 'center',
+                                minWidth: 120,
+                                // width: 80,
+                                title: '问题类型',
+                                templet: function (d) {
+                                    if (d.typeId == 1) {
+                                        return '撞单问题'
+                                    } else {
+                                        return '其他'
+                                    }
+                                }
+                            },
+                            {
+                                field: 'text',
+                                align: 'center',
+                                minWidth: 120,
+                                // width: 80,
+                                title: '问题详情',
+                                templet: function (d) {
+                                    if (d.text == false) {
+                                        return ''
+                                    } else {
+                                        return d.text;
+                                    }
+                                }
+                            },
+                            {
+                                field: 'xiaoid',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '给予回复',
+                                templet: '<div class="layui-inline layui-form layui-table-bd" style="height: 38px;"><button class="layui-btn">详情</button></div>',
+                                event: 'sign'
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        console.log(res);
+                        if (res.state == 3000) {
+                            layer.msg('您没有权限，访问数据！')
+                        } else {
+                            $('.count').text(res.count);
+                            $('.jinCount').text(res.jinCount);
+                        }
+                    }
+                });
+
+            }
+
+            $('.word').on('click', function () {
+                if ($('.textA').val().trim() != '') {
+                    $.ajax({
+                        url: "{:U('Middle/wenTiChuLi')}",
+                        type: 'POST',
+                        data: {
+                            type: 2,
+                            xiaoId: $(this).attr('data-id'),
+                            text: $('.textA').val()
+                        }
+                    });
+                } else {
+                    layer.msg('请输入问题反馈')
+                }
+
+            });
+
+            function layerSub(type, obj) {
+                $.ajax({
+                    url: "{:U('Middle/wenTiChuLi')}",
+                    type: 'POST',
+                    data: {
+                        type: type,
+                        xiaoId: obj.data.xiaoid,
+                        text: $('.textA').val()
+                    },
+                    success: function (res) {
+                        if (res.state == 2000) {
+                            layer.msg('提交成功！')
+                            setTimeout(function () {
+                                layer.close(index);
+                            }, 1000)
+                        } else {
+                            layer.msg('提交失败！', {
+                                type: 1
+                            }, function (index) {
+                                layer.close(index);
+                            })
+                        }
+
+                    }
+                });
+            }
+
+            table.on('tool(test)', function (obj) {
+                if (obj.event == 'sign') {
+                    console.log(obj.data.xiaoid);
+                    layer.open({
+                        title: '',
+                        content: '<div class=""><div style="overflow: auto;"><label class="layui-form-label">问题详情: </label><span style="width: 300px;padding-left: 0;" class="layui-form-label">' +
+                            obj.data.text +
+                            '</span></div><div><label class="layui-form-label">问题反馈: </label><textarea name="desc" placeholder="请输入多行" class="layui-textarea textA" style="width: 215px;display: inline-block;"></textarea></div></div>',
+                        btn: ['移至高层', '反馈', '取消'],
+                        area: '500px',
+                        yes: function (index, layero) {
+
+                            if ($('.textA').val().trim() != '') {
+                                layerSub(2, obj)
+                            } else {
+                                layer.msg('请输入要反馈的问题！', {
+                                    type: 1
+                                }, function (index) {
+                                    layer.close(index);
+                                })
+                            }
+
+                        },
+                        btn2: function (index, layero) {
+
+                            if ($('.textA').val().trim() != '') {
+                                layerSub(1, obj)
+                            } else {
+                                layer.msg('请输入要反馈的问题！', {
+                                    type: 1
+                                }, function (index) {
+                                    layer.close(index);
+                                    return false;
+                                })
+                                return false;
+                            }
+                        },
+                        cancel: function () {}
+                    });
+
+                }
+            })
+
+        });
+    </script>
+
+    <script type="text/html" id="radioTpl">
+        <input type="checkbox" name="sexRadio" value="{{d.adminstate}}" lay-id="{{d.adminid}}" title=" "
+            lay-skin="primary" lay-filter="radiodemo" {{ d.adminstate == "1" ? "checked" : "" }}>
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+    <style>
+        .iconPosi {
+            margin-bottom: 0;
+            vertical-align: bottom;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">中层审核端展示</a>
+                        <a href="./saledata.html">销售数据</a>
+                        <a href="javascript:;">权限分配</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+
+                <div class="" style="line-height: 40px;margin-top: 10px;">
+                    <div class="layui-row">
+                        <div class="layui-col-xs4 layui-col-sm2 layui-col-md2">
+                            <label class="">总人数：</label>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="layui-col-xs4 layui-col-sm2 layui-col-md2">
+                            <label class="">今日新增人数：</label>
+                            <span class="jinCount">0</span>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" style="width: auto;">
+                            <div class="layui-input-inline newlayui-input-inline">
+                                <input type="text" id="iphone" name="title" required lay-verify="required"
+                                    placeholder="请输入手机号" autocomplete="off" class="layui-input">
+
+                            </div>
+                            <div class="layui-input-inline newlayui-input-inline"
+                                style="position: relative;margin-left: -3px;width: auto;">
+                                <button class="layui-btn iconPosi">
+                                    <i class="layui-icon layui-icon-search"></i>查询
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'laypage', 'element'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                table = layui.table,
+                layer = layui.layer,
+                form = layui.form,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            form.on("checkbox(radiodemo)", function (obj) {
+                // this.value == 1 ? 
+                console.log(this.value);
+                console.log($(this).attr('lay-id'))
+                $.ajax({
+                    url: "{:U('Middle/updateAdminRoot')}",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        adminId: $(this).attr('lay-id'),
+                        satte: this.value == 1 ? 0 : 1
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code == 0) {
+                            // dataShow();
+                            layer.msg('状态修改成功！');
+                        } else {
+                            layer.msg('状态修改失败！');
+                        }
+                    }
+                });
+            });
+            dataShow();
+
+            function dataShow(phone) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Middle/middleAdminSelect')}",
+                    
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    where: {
+                        phone: phone || ''
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'count': res.count,
+                            'jinCount': res.jinCount
+                        }
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    cols: [
+                        [{
+                                field: 'adminname',
+                                // width: 80,
+                                align: 'center',
+                                title: '申请人',
+                                minWidth: 120
+                            },
+                            {
+                                field: 'adminshopid',
+                                // width: 80,
+                                align: 'center',
+                                title: '店铺ID',
+                                templet: function (b) {
+                                    return b.adminshopid ? b.adminshopid : 0
+                                },
+                                minWidth: 120,
+                                edit: 'text'
+
+
+                            },
+                            {
+                                field: 'jueshequanxian',
+                                // width: 80,
+                                align: 'center',
+                                title: '申请权限',
+                                templet: function (b) {
+                                    return b.jueshequanxian[0] + '-' + b.jueshequanxian[1];
+                                },
+                                minWidth: 120
+                            },
+                            {
+                                field: 'adminphone',
+                                // width: 80,
+                                align: 'center',
+                                title: '手机号',
+                                minWidth: 120,
+                                templet: function (res) {
+                                    return res.adminphone.substring(0, 3) + '****' + res
+                                        .adminphone.substring(3, 7);
+                                },
+                                event: 'edit'
+                            },
+                            {
+                                field: 'admindate',
+                                // width: 80,
+                                align: 'center',
+                                title: '注册时间',
+                                minWidth: 120
+                            },
+                            {
+                                field: 'adminstate',
+                                title: '是否通过审核',
+                                align: 'center',
+                                templet: "#radioTpl",
+                                minWidth: 120
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                        console.log(res);
+                        $('.jinCount').text(res.jinCount);
+                        $('.count').text(res.count);
+                        //得到当前页码
+                        console.log(curr);
+
+                        console.log(res.data);
+
+                        //得到数据总量
+                        console.log(count);
+                    }
+                });
+
+            }
+
+            $('.iconPosi').on('click', function () {
+                var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                var iphone = $('#iphone').val();
+                if (myreg.test(iphone)) {
+                    table.render({
+                        elem: '#test',
+                        url: "{:U('Middle/phoneSelectShow')}",
+                        method: 'POST',
+                        limits: [30],
+                        limit: 30,
+                        where: {
+                            phone: iphone || ''
+                        },
+                        parseData: function (res) {
+                            var arr = [];
+                            if (res.state == 2000) {
+                                var detailData = arr.push(res.data);
+                                console.log(res);
+                                return {
+                                    'code': 0,
+                                    'data': arr,
+                                    'count': res.count,
+                                    'state': res.state
+                                }
+                            } else {
+                                return {
+                                    'code': 0,
+                                    'state': res.state
+                                }
+                            }
+
+                        },
+                        page: false,
+                        cols: [
+                            [{
+                                    field: 'adminname',
+                                    // width: 80,
+                                    title: '申请人',
+
+                                    style: 'width: 60px'
+                                },
+                                {
+                                    field: 'jueshequanxian',
+                                    // width: 80,
+                                    title: '申请权限'
+                                },
+                                {
+                                    field: 'adminphone',
+                                    // width: 80,
+                                    title: '手机号'
+                                },
+                                {
+                                    field: 'admindate',
+                                    // width: 80,
+                                    title: '注册时间'
+                                },
+                                {
+                                    field: 'adminstate',
+                                    title: '是否通过审核',
+                                    templet: "#radioTpl"
+                                }
+                            ]
+                        ],
+                        page: true,
+                        done: function (res, curr, count) {
+                            console.log(res);
+                            if (res.state == 2000) {
+                                $('.jinCount').text(res.jinCount);
+                                $('.count').text(res.count);
+                            } else {
+                                layer.msg('查询的用户没有销售记录');
+                            }
+                        }
+                    });
+
+                } else {
+                    layer.msg('请输入正确的手机号')
+                }
+            })
+
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    if ($(this).children().text().substr(3, 1) == '*') {
+                        $(this).children().text(data.adminphone)
+                        $(this).parent().siblings().map(function (i, val, arr) {
+                            if (val.childNodes[2].children[0].innerText.length == 11 && val
+                                .childNodes[2].children[0].innerText.substr(3, 1) != '*') {
+                                val.childNodes[2].children[0].innerText = val.childNodes[2]
+                                    .dataset
+                                    .content.substring(0, 3) + '****' +
+                                    val.childNodes[2].dataset.content.substring(7, 12);
+                            } else {
+
+                            }
+
+                        })
+
+                    } else {
+                        if (data.adminphone != '' && data.adminphone != null) {
+                            $(this).children().text(data.adminphone.substring(0, 3) + '****' + data
+                                .adminphone
+                                .substring(7, 12));
+
+                        }
+
+                    }
+
+                }
+
+            })
+
+            table.on('edit(test)', function (obj) {
+                var value = obj.value //得到修改后的值
+                    ,
+                    data = obj.data //得到所在行所有键值
+                    ,
+                    field = obj.field; //得到字段
+                    $.ajax({
+                        url: "{:U('Middle/adminshopIdUpdate')}",
+                        type: 'POST',
+                        data: {
+                            adminshopid: value,
+                            adminid: obj.data.adminid
+                        },
+                        success: function (res) {
+                            console.log(res)
+                            if (res == 2000) {
+                                layer.msg('店铺ID修改为：' + value);
+                            } else {
+                                layer.msg('店铺ID修改失败');
+                            }
+                        }
+                    })
+                
+            });
+        });
+    </script>
+    <script type="text/html" id="radioTpl">
+        <input type="checkbox" name="sexRadio" value="{{d.adminstate}}" lay-id="{{d.adminid}}" title=" "
+            lay-skin="primary" lay-filter="radiodemo" {{ d.adminstate == "1" ? "checked" : "" }}>
+    </script>
+</body>
+
+</html>

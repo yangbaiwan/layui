@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+
+    <style>
+        .new-layui-form-label {
+            border: 0 !important;
+            border-style: none;
+        }
+
+        .layui-table-cell {
+            height: auto !important;
+        }
+
+        .new-div-inline {
+            /* height: 38px;
+            vertical-align: text-bottom;
+            line-height: 38px; */
+        }
+
+        .new-btn {
+            vertical-align: text-bottom;
+        }
+
+        .content-search {
+            padding-bottom: 0;
+        }
+
+        .diy-btn {
+            box-sizing: content-box;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">高级审核展示</a>
+                        <a href="./highfeedback.html">问题学员</a>
+                        <a href="javascript:;">问题反馈</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+                <div class="layui-form layui-form-pane layui-row" style="line-height: 38px;height: 38px;">
+
+                    <div class=" layui-col-xs6 layui-col-sm2 layui-col-md4">
+                        <label class="">问题总数：</label><span class="count">12</span>
+                        
+                    </div>
+
+                    <div class=" layui-col-xs6 layui-col-sm6 layui-col-md4">
+                        <label class="">今日新增：</label><span class="fenCount">12</span>
+                        
+                    </div>
+
+
+
+                    <div class="  layui-col-xs12">
+                        <button class="layui-btn layui-btn-primary hide-pc" id="search-close">关闭</button>
+                    </div>
+                </div>
+
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                table = layui.table,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+            dataShow();
+
+            function dataShow(phone) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('HighAdmin/wenTiShow')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    where: {
+                        phone: phone || ''
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'count': res.count,
+                            'jinCount': res.jinCount
+                        }
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    cols: [
+                        [{
+                                field: 'adminname',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '用户昵称',
+                            },
+                            {
+                                field: 'xiaodate',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '反馈日期'
+                            },
+                            {
+                                field: 'type',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '问题类型',
+                                templet: function (res) {
+                                    if (res.type == 1) {
+                                        return '撞单问题'
+                                    } else {
+                                        return '其他'
+                                    }
+                                }
+                            },
+                            {
+                                field: 'wen',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '问题详情'
+                            },
+                            {
+                                field: 'xiaostate',
+                                title: '给予回复',
+                                align: 'center',
+                                minWidth: 120,
+                                templet: function (d) {
+                                    if (d.xiaostate == 2) {
+                                        return '<div class="layui-inline layui-form layui-table-bd"><button class="layui-btn">回复</button></div>'
+                                    } else {
+                                        return ''
+                                    }
+                                },
+                                event: 'sign'
+
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                        console.log(res);
+                        if (res.state == 3000) {
+                            layer.msg('您没有权限，访问数据！')
+                        } else {
+                            $('.count').text(res.count);
+                            $('.fenCount').text(res.fenCount);
+                        }
+                        //得到当前页码
+                        console.log(curr);
+
+                        console.log(res.data);
+
+                        //得到数据总量
+                        console.log(count);
+                    }
+                });
+
+            }
+
+            $('.iconPosi').on('click', function () {
+                var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                var iphone = $('#iphone').val();
+                if (myreg.test(iphone)) {
+                    dataShow(iphone);
+
+
+                } else {
+                    layer.msg('请输入正确的手机号')
+                }
+            });
+
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'sign' && data.xiaostate == 2) {
+
+                    layer.open({
+                        title: '',
+                        content: '<div class=""><div><label class="layui-form-label">问题回复: </label><textarea name="desc" placeholder="请输入回复" class="layui-textarea sealRemark" style="width: 300px;display: inline-block;margin-top:9px;"></textarea></div></div>',
+                        btn: ['确定', '取消'],
+                        area: '500px',
+                        yes: function (index, layero) {
+                            if ($('.sealRemark').val().trim() == '') {
+                                layer.msg('留言不能为空！', {
+                                    type: 1
+                                }, function (index) {
+                                    layer.close(index);
+                                });
+                                return true;
+                            } else {
+                                $.ajax({
+                                    url: "{:U('HighAdmin/chuLiWenTi')}",
+                                    type: 'POST',
+                                    data: {
+                                        text: $('.sealRemark').val(),
+                                        xiaoId: data.xiaoid
+                                    },
+                                    success: function (res) {
+                                        console.log(res);
+                                        if (res.state == 2000) {
+                                            layer.msg('处理成功');
+                                        } else {
+                                            layer.msg('处理失败');
+                                        }
+
+                                    }
+                                });
+                                layer.close(index);
+
+                            }
+
+                        },
+                        btn2: function (index, layero) {},
+                        cancel: function () {}
+                    });
+                }
+            });
+
+
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+
+    <style>
+        .new-layui-form-label {
+            border: 0 !important;
+            border-style: none;
+        }
+
+        .layui-table-cell {
+            height: auto !important;
+        }
+
+        .new-div-inline {}
+
+        .new-btn {
+            vertical-align: text-bottom;
+        }
+
+        .content-search {
+            padding-bottom: 0;
+        }
+
+        .diy-btn {
+            box-sizing: content-box;
+            position: relative;
+        }
+
+        .optinBox ul,
+        .optinBox li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /*下拉框样式*/
+        .optinBox #select {
+            /* margin: 100px; */
+            background: rgba(0, 0, 0, 0);
+            width: 249px;
+            /* height: 40px; */
+            font-family: "微软雅黑";
+            /* font-size: 18px; */
+            /* color: #1a1a1a; */
+            border: 1px #e6e6e6 solid;
+            border-radius: 5px;
+        }
+
+        .optinBox .select-head {
+            overflow: hidden;
+            width: 249px;
+            height: 38px;
+            box-sizing: border-box;
+            padding: 0 10px;
+            line-height: 38px;
+        }
+
+        .optinBox .select-head .select-head-cont {
+            float: left;
+        }
+
+        .optinBox .select-head .select-icon {
+            float: right;
+            cursor: pointer;
+        }
+
+        .optinBox .option {
+            text-indent: 10px;
+            margin-top: 1px;
+            width: 249px;
+            /* color: black; */
+            /* background: rgba(236, 111, 111, 0.1); */
+            line-height: 25px;
+            border: 1px #cfcfcf solid;
+            display: none;
+        }
+
+        .optinBox .option-item:hover {
+            background: #F2F2F2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">销售端展示</a>
+                        <a href="javascript:;">公海池</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+
+                <div class="layui-form layui-form-pane layui-row"
+                    style="line-height: 45px;height: 45px;margin-top: 20px">
+
+                    <div class=" layui-col-xs4 layui-col-sm2 layui-col-md4">
+                        <label class="">总人数：</label><span class="count">12</span>
+
+                    </div>
+
+                    <div class=" layui-col-xs4 layui-col-sm6 layui-col-md6">
+                        <label class="">我已分配：</label><span class="fenCount">12</span>
+
+                    </div>
+                    <div class=" layui-col-xs12 layui-col-sm4 layui-col-md1">
+                        <button class="layui-btn layui-btn-primary diy-btn power">权限分配</button>
+                    </div>
+                    <div class=" layui-col-xs4 layui-col-sm4 layui-col-md1">
+                        <button onclick="window.location.href='salepoolApply.html'"
+                            class="layui-btn layui-btn-primary diy-btn">销售申请</button>
+                    </div>
+                </div>
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                table = layui.table,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+            dataShow();
+
+            function dataShow(phone) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Middle/publicDataAll')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    where: {
+                        phone: phone || ''
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'count': res.count,
+                            'state': res.state,
+                            'fenCount': res.fenCount
+                        }
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    cols: [
+                        [{
+                                field: 'wdkidimg',
+                                // width: 80,
+                                title: '用户头像',
+                                templet: '<div style="height:auto!important;width:86px!important"><img style="width: 18%;" src="{{ d.wdkidimg}}"></div>',
+
+                                minWidth: 120,
+                                align: 'center'
+                            },
+                            {
+                                field: 'wdkidusername',
+                                minWidth: 120,
+                                align: 'center',
+                                // width: 80,
+                                title: '用户昵称'
+                            },
+                            {
+                                field: 'dangadminid',
+                                minWidth: 120,
+                                align: 'center',
+                                // width: 80,
+                                title: '历史销售'
+                            },
+                            {
+                                field: 'wdkidbang',
+                                align: 'center',
+                                minWidth: 120,
+                                // width: 80,
+                                title: '进入公海池时间'
+                            },
+                            {
+                                field: 'beizhu',
+                                align: 'center',
+                                minWidth: 120,
+                                title: '历史备注'
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        if (res.state == 3000) {
+                            layer.msg('您没有权限，访问数据！')
+                        } else {
+                            $('.count').text(res.count);
+                            $('.fenCount').text(res.fenCount);
+                        }
+                    }
+                });
+
+            }
+
+
+
+
+
+            $('.power').on('click', function () {
+                var selectStr = "",
+                    str = '',
+                    area = parseInt(window.screen.width) < 768 ? '300px' : '500px';
+                $.ajax({
+                    url: "{:U('Middle/fenPaiShow')}",
+                    type: 'POST',
+                    data: {},
+                    async: false,
+                    success: function (res) {
+                        console.log(res);
+                        for (var i = 0; i < res.length; i++) {
+                            selectStr += '<li class="option-item" value="' + res[i]
+                                .adminid + '">' +
+                                res[i].adminname + "</li>"
+
+
+
+                        }
+
+                    }
+
+                })
+
+                if (parseInt(window.screen.width) < 768) {
+
+                } else {
+                    str =
+                        `<div class="" style="height: 200px"><div style="margin-bottom: 10px;"><label class="">申请人数: </label><input style="width: auto;" type="number" id="layer-per" name="title" placeholder="" autocomplete="off" class="layui-input diyWidth"><span style="margin-left: 10px;color: red;">一次只能申请10人</span></div>
+                        <div class="" style="position: relative;">
+                            <label class="" style="height:38px;line-height:38px;">分配人员:</label>
+                             <div class="optinBox" style="position: absolute;left: 64px;top:0;">
+                            <ul id="select">
+                                <li>
+                                    <div class="select-head">
+                                        <span class="select-head-cont"></span>
+                                        <span class="select-icon">▼</span>
+                                    </div>
+                                    <ul class="option">
+                                        <li class="option-item" value="0">请选择</li>
+                                            ` + selectStr + `
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+                            </div></div>
+                       
+
+
+                        `
+
+                }
+                layer.open({
+                    title: '',
+                    content: str,
+                    btn: ['确定', '取消'],
+                    area: area,
+                    maxHeight: '400px',
+                    yes: function (index, layero) {
+                        $('.select-head-cont').children()
+                        if ($('#layer-per').val() <= 10 && $('#layer-per').val() > 0 && $(
+                                '.select-head-cont').text() !== '请选择') {
+                            $.ajax({
+                                url: "{:U('Middle/fenPai')}",
+                                type: 'POST',
+                                data: {
+                                    num: $('#layer-per').val(),
+                                    adminId: $('.select-head-cont').attr('value')
+                                },
+                                async: false,
+                                success: function (res) {
+                                    console.log(res);
+                                    if (res.state == 4004) {
+                                        layer.msg('公海池没有人员信息', {
+                                            type: 1
+                                        }, function (index) {
+                                            layer.close(index);
+                                        });
+                                    } else {
+                                        layer.msg('成功分配' + res.num + '人！', {
+                                            type: 1
+                                        }, function (index) {
+                                            layer.close(index);
+                                        });
+                                    }
+
+                                    return true;
+
+                                }
+
+                            })
+                        } else {
+                            if ($('#layer-per').val() > 10 || $('#layer-per').val() <= 0) {
+                                layer.msg('申请人数为1到10人！', {
+                                    type: 1
+                                }, function (index) {
+                                    layer.close(index);
+                                });
+                                return true;
+                            }
+                            if ($('.select-head-cont').text() === '请选择') {
+                                layer.msg('请选择要分配的对象！', {
+                                    type: 1
+                                }, function (index) {
+                                    layer.close(index);
+                                });
+                                return true;
+                            }
+                        }
+
+
+                    },
+                    btn2: function (index, layero) {},
+                    cancel: function () {}
+                });
+
+                var selectHead = document.getElementsByClassName('select-head')[0];
+                var selectHeadCont = document.getElementsByClassName('select-head-cont');
+                var Option = document.getElementsByClassName('option')[0];
+                var optionItem = document.getElementsByClassName('option-item');
+
+                /*默认是第一个选项*/
+                selectHeadCont[0].innerHTML = optionItem[0].innerHTML;
+
+                /*点击后出现下拉框*/
+                selectHead.addEventListener('click', function () {
+                    Option.style.display = 'block';
+                }, false);
+                /*点击选项后出现在下拉框*/
+                var len = optionItem.length;
+                for (var i = 0; i < len; i++) {
+                    optionItem[i].index = i;
+                    optionItem[i].addEventListener('click', function () {
+                        selectHeadCont[0].innerHTML = optionItem[this.index].innerHTML;
+                        selectHeadCont[0].setAttribute('value', optionItem[this.index]
+                            .getAttribute('value'));
+                        Option.style.display = 'none';
+                    }, false);
+                }
+                /*点击其他地方时，select会收起来*/
+                document.body.addEventListener('click', function () {
+                    Option.style.display = 'none';
+                }.false);
+            })
+
+        });
+    </script>
+</body>
+
+</html>

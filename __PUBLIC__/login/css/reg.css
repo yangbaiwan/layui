@@ -1,0 +1,104 @@
+.layui-form-item {
+    color: white;
+}
+
+.btnPosi {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    display: inline-block;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 18px;
+    background-color: #009688;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    width: 70px;
+    box-sizing: content-box;
+    text-align: center;
+}
+
+.select-width {
+    width: 34%;
+    display: inline-block;
+    margin: 0;
+}
+
+.layui-input-inline {
+    width: 190px;
+}
+
+.layui-input-block1 {
+    margin-left: 0;
+}
+
+.layui-row:after,
+.layui-row:before {
+    display: inline-block;
+}
+
+.foorter-btn {
+    width: 200px;
+    margin-top: 30px;
+}
+
+.layui-form-select dl dd,
+.layui-form-select dl dt {
+    color: black !important;
+}
+
+.logo-img {
+    width: 450px;
+    margin: 30px auto 10px;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -360px;
+    margin-left: -225px;
+}
+
+.logo-img img {
+    width: 100%;
+}
+
+.login {
+    height: 520px;
+    margin: -230px 0 0 -225px;
+}
+
+@media screen and (max-width: 992px) {
+    .login {
+        width: 96%;
+        margin: 0;
+        height: auto;
+        background: transparent;
+        -webkit-transform: translate(-50%, -50%);
+    }
+
+    .logo-img {
+        width: 250px;
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-top: -300px;
+        margin-left: -125px;
+    }
+
+    .logo-img img {
+        width: 100%;
+    }
+
+    .logo {
+        width: auto;
+    }
+
+}

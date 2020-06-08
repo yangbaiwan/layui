@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>layui响应式管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+
+    <style>
+        .formBox {
+            width: 80%;
+            display: inline-block;
+            /* text-align: center; */
+            margin: 30px auto 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">后端服务展示</a>
+                        <a href="javascript:;">成单用户</a>
+                        <a href="javascript:;">编辑</a>
+                    </span>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <div class="formBox">
+                            <form class="layui-form" action="">
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">微信号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="weiXinHao" id="wechar" required lay-verify="required"
+                                            placeholder="请输入微信号" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item" style="display: none;">
+                                    <label class="layui-form-label">id</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="wdkidId" id="id" required lay-verify="required"
+                                            placeholder="请输入微信号" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">转介绍人数</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="zhuanJieNum" id="num" required lay-verify="required"
+                                            placeholder="请输入转介绍人数" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label class="layui-form-label">我的备注</label>
+                                    <div class="layui-input-block">
+                                        <textarea name="beiZhu" placeholder="请输入备注" id="remark" class="layui-textarea"></textarea>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+
+    <script type="text/javascript" src="__PUBLIC__/js/overLoading.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                form = layui.form,
+                laypage = layui.laypage,
+                table = layui.table,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            var data = JSON.parse(sessionStorage.getItem('successDetail'));
+            $('#wechar').val(data.wdkidusername)
+            $('#num').val(data.zhuanjienum)
+            $('#remark').val(data.beizhu)
+            $('#id').val(data.wdkidid)
+            form.on('submit(formDemo)', function (data) {
+                console.log(data)
+                $.ajax({
+                    url: "{:U('Endserv/chengDanUpdate')}",
+                    type: 'POST',
+                    data: data.field,
+                    success: function (res) {
+                        if (res.state == 2000) {
+                            layer.msg('修改成功！')
+                        } else {
+                            layer.msg('修改失败！')
+                        }
+                    }
+                });
+                return false;
+            })
+
+        });
+    </script>
+</body>
+
+</html>

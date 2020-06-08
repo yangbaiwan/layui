@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+    <style>
+        .headimg {
+            line-height: 66px;
+        }
+
+        .iconPosi {
+            /* position: absolute;
+            top: 50%;
+            margin-top: -19px; */
+        }
+
+        .laytable-cell-1-0-0 {
+            height: auto !important;
+        }
+
+        .layui-table-view .layui-table {
+            width: 100% !important;
+        }
+
+        .layui-laypage-limits {
+            display: none !important;
+        }
+
+        .layui-table-cell {
+            height: auto !important;
+        }
+
+        @media screen and (max-width: 992px) {
+            .img_box {
+                position: relative;
+                height: 60px;
+            }
+
+            .img_con {
+                display: inline-block;
+                width: auto;
+                position: absolute;
+                left: 50%;
+                margin-left: -50px !important;
+            }
+
+            .iconPosi {
+                /* position: absolute;
+            top: 50%;
+            margin-top: -19px; */
+                margin-top: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">后端管理展示</a>
+                        <a href="javascript:;">数据展示</a>
+                    </span>
+                </div>
+                <!-- 搜索条件 -->
+                <div class="search-res-mask"></div>
+                <div class="search-res">
+                    <div class="search-res-btn hide-pc">
+                        <button class="layui-btn" id="search-btn"><i class="layui-icon">&#xe615;</i>查询</button>
+                    </div>
+                    <div class="content-search search-fix" style="border: 0;">
+                        <div class="layui-form layui-form-pane layui-row" style="line-height: 60px;">
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md2 img_box">
+                                <div class="layui-input-inline img_con">
+                                    <img class="img-cp fl mr10 userImg" src="__PUBLIC__/img/default.png" alt="">
+                                    <span class="userName">杨哥</span>
+                                </div>
+                            </div>
+                            <div class="layui-inline layui-col-xs12 layui-col-sm6 layui-col-md6">
+                                <div class="layui-input-inline newlayui-input-inline" style="width: auto;">
+                                    <input type="text" id="iphone" name="title" required lay-verify="required"
+                                        placeholder="请输入手机号" autocomplete="off" class="layui-input">
+
+                                </div>
+                                <div class="layui-input-inline newlayui-input-inline"
+                                    style="position: relative;margin-left: -3px;width: auto;">
+                                    <button class="layui-btn iconPosi">
+                                        <i class="layui-icon layui-icon-search"></i>查询
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="layui-inline  layui-col-xs12">
+                                <!-- <button class="layui-btn" lay-submit="">查询</button> -->
+                                <button class="layui-btn layui-btn-primary hide-pc" id="search-close">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="" style="line-height: 40px;">
+                    <div class="layui-row">
+                        <div class="layui-col-xs4 layui-col-sm2 layui-col-md2 addNumBox">
+                            <label class="">总人数</label>
+                            <span class="addNum count">10</span>
+                        </div>
+                        <div class="layui-col-xs4 layui-col-sm2 layui-col-md2 addChangeNumBox">
+                            <label>转介绍人数</label>
+                            <span class="addChangeNum zhuanCount">10</span>
+                        </div>
+                        <div class="layui-col-xs4 layui-col-sm2 layui-col-md2 alreadyChangeBox">
+                            <label>新增转介绍用户</label>
+                            <span class="alreadyChange xinZhuanCount">10</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 表格列表 -->
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test">
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/overLoading.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'laydate', 'layer', 'laypage', 'element', 'table'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                laypage = layui.laypage,
+                table = layui.table,
+                form = layui.form,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+            var a = 'tuifei';
+
+
+
+
+
+            form.on('select(inDate)', function (res) {
+                if (res.value) {
+                    dataShow('', res.value);
+                    $('.laytable-cell-1-0-7').eq(0).text('已成单');
+
+                }
+            })
+
+            //退费接口
+            dataShow();
+
+            function dataShow(phone) {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Endadmin/viviDataSelect')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    where: {
+                        phone: phone || ''
+                    },
+                    page: {
+                        //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    parseData: function (res) {
+                        return {
+                            'code': 0,
+                            'data': res.data,
+                            'count': res.count,
+                            'zhuanCount': res.zhuanCount,
+                            'admin': res.admin,
+                            'xinZhuanCount': res.xinZhuanCount
+                        }
+                    },
+                    cols: [
+                        [{
+                            field: 'adminname',
+                            title: '后端名称',
+                            align: 'center',
+                            minWidth: 120,
+                        },
+                        {
+                            field: 'countUserNum',
+                            title: '用户数',
+                            align: 'center',
+                            minWidth: 120,
+                        },
+                        {
+                            field: 'zhuanCountUserNum',
+                            // width: 80,
+                            title: '转介绍用户数',
+                            align: 'center',
+                            minWidth: 120,
+                        },
+                        {
+                            field: 'zhuanCountUserNumAll',
+                            title: '转介绍人数',
+                            align: 'center',
+                            minWidth: 120,
+                        },
+                        {
+                            field: 'lv',
+                            title: '转介绍率',
+                            align: 'center',
+                            minWidth: 120,
+                        },
+                        {
+                            field: 'adminphone',
+                            title: '手机号',
+                            event: 'edit',
+                            align: 'center',
+                            minWidth: 120,
+                            templet: function (res) {
+                                // console.log(res.phone != '' ? res.phone.substring(0, 3) +
+                                //     '****' + res.phone.substring(7, 12) : '');
+                                return res.adminphone != '' && res.adminphone != null ? res
+                                    .adminphone
+                                    .substring(0, 3) +
+                                    '****' + res.adminphone.substring(7, 12) : ''
+                            }
+
+                        },
+                        {
+                            field: 'adminstate',
+                            title: '是否通过审核',
+                            templet: "#radioTpl",
+                            minwidth: 120,
+                            align: 'center'
+                        }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) {
+                        //如果是异步请求数据方式，res即为你接口返回的信息。
+                        //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                        console.log(res);
+                        $('.userImg').attr('src', res.admin.weixintouxiang);
+                        $('.userName').text(res.admin.adminname);
+
+                        $('.count').text(res.count);
+                        $('.zhuanCount').text(res.zhuanCount);
+                        $('.xinZhuanCount').text(res.xinZhuanCount);
+                    }
+                });
+
+            }
+
+
+
+
+            $('.iconPosi').on('click', function () {
+                var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                var iphone = $('#iphone').val();
+                if (myreg.test(iphone)) {
+                    dataShow(iphone);
+
+                } else {
+                    layer.msg('请输入正确的手机号')
+                }
+            })
+
+
+
+
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'setSign') {
+
+                    window.location.href = 'detail.html'
+                }
+                if (obj.event === 'edit') {
+                    if ($(this).children().text().substr(3, 1) == '*') {
+                        $(this).children().text(data.adminphone)
+                        console.log($(this).parent().siblings())
+                        $(this).parent().siblings().map(function (i, val, arr) {
+                            if (val.childNodes[5].children[0].innerText.length == 11 && val
+                                .childNodes[5].children[0].innerText.substr(3, 1) != '*') {
+                                val.childNodes[5].children[0].innerText = val.childNodes[5]
+                                    .dataset.content.substring(0, 3) + '****' +
+                                    val.childNodes[5].dataset.content.substring(7, 12);
+                            } else {
+
+                            }
+
+                        })
+
+                    } else {
+                        if (data.adminphone != '' && data.adminphone != null) {
+                            $(this).children().text(data.adminphone.substring(0, 3) + '****' + data
+                                .adminphone
+                                .substring(7, 12));
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+
+
+
+
+
+
+            form.on("checkbox(radiodemo)", function (obj) {
+                // this.value == 1 ? 
+                console.log(this.value);
+                console.log($(this).attr('lay-id'))
+                $.ajax({
+                    url: "{:U('Root/updateRoot')}",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        adminId: $(this).attr('lay-id'),
+                        satte: this.value == 1 ? 0 : 1
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code == 0) {
+                            dataShow();
+                            layer.msg('状态修改成功！');
+                        } else {
+                            layer.msg('状态修改失败！');
+                        }
+                    }
+                });
+            });
+
+
+        });
+    </script>
+    <script type="text/html" id="radioTpl">
+        <input type="checkbox" name="sexRadio" value="{{d.adminstate}}" lay-id="{{d.adminid}}" title=" "
+            lay-skin="primary" lay-filter="radiodemo" {{ d.adminstate == "1" ? "checked" : "" }}>
+    </script>
+</body>
+
+</html>

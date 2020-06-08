@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>CRM管理系统</title>
+    <link rel="icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0"
+        name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__PUBLIC__/css/admin.css" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="__PUBLIC__/css/admin.mobile.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/index.css">
+</head>
+
+<body>
+    <!-- 布局容器 -->
+    <div class="layui-layout layui-layout-admin">
+        <input type="hidden" id="urlOgin" value="{:U('Login/loginSign')}">
+        <input type="hidden" id="menu" value="{:U('Index/indexShow')}">
+
+        <!-- 头部 -->
+        <div id="header">
+            <header-component></header-component>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="masked"></div>
+
+        <!-- 左侧菜单 -->
+        <div id="leftSlide">
+            <leftslide-component></leftslide-component>
+        </div>
+
+        <!-- 主体 -->
+        <div class="layui-body">
+            <!-- 主要内容 -->
+            <div class="container">
+
+                <div class="nav-sty">
+                    <span class="layui-breadcrumb">
+                        <a href="javascript:;">销售端展示</a>
+                        <a href="./feedback.html">问题反馈</a>
+                        <a href="javascript:;">历史问题反馈</a>
+                    </span>
+                </div>
+                <div class="table-list">
+                    <table class="layui-table layui-list-table" lay-skin="line" id="test" lay-filter="test">
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 可不引入 -->
+    <script type="text/javascript" src="__PUBLIC__/js/vue.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/fastclick.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin.js"></script>
+    <script>
+        layui.use(['jquery', 'form', 'table', 'laydate', 'layer', 'laypage', 'element'], function () {
+            var $ = layui.jquery,
+                laydate = layui.laydate,
+                layer = layui.layer,
+                table = layui.table,
+                laypage = layui.laypage,
+                element = layui.element;
+            $(function () {
+                FastClick.attach(document.body);
+            });
+
+            dataShow();
+
+            function dataShow() {
+                table.render({
+                    elem: '#test',
+                    url: "{:U('Frontline/feedBackShow')}",
+                    method: 'POST',
+                    limits: [30],
+                    limit: 30,
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                        groups: 1,
+                        first: false,
+                        last: false //不显示尾页
+
+                    },
+                    parseData: function (res) {
+
+
+                        console.log(res.data);
+                        return {
+                            'code': 0,
+                            'data': res
+                        }
+                    },
+                    cols: [
+                        [{
+                                field: 'xiaodate',
+                                title: '日期',
+                                align: 'center',
+								minWidth: 120
+                            },
+                            {
+                                field: 'type',
+                                title: '问题类型',
+                                templet: function (d) {
+                                    return d.type == 1 ? '撞单问题' : '其他'
+                                },
+                                align: 'center',
+								minWidth: 120
+                            },
+                            {
+                                field: 'shenName',
+                                align: 'center',
+                                title: '审批人',
+								minWidth: 120
+                            },
+                            {
+                                field: 'xiaostate',
+                                align: 'center',
+                                title: '审批结果',
+                                templet: function (d) {
+                                    if (d.xiaostate == 0) {
+                                        return '未读'
+                                    } else if (d.xiaostate == 1) {
+                                        return '已处理'
+                                    } else if(d.xiaostate == 2){
+                                        return '已提交上级'
+                                    } else {
+                                        return '已审核'
+                                    }
+                                },
+								minWidth: 120
+                            },
+                            {
+                                field: 'text',
+                                align: 'center',
+                                title: '审批意见',
+								minWidth: 120
+                            }
+                        ]
+                    ],
+                    page: true,
+                    done: function (res, curr, count) { }
+                });
+
+            }
+
+
+
+        });
+    </script>
+</body>
+
+</html>

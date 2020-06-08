@@ -1,136 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <title>E-Bank Service 商户管理平台</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=0" name="viewport">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <link rel="stylesheet" href="layui/css/layui.css" />
-    <link rel="stylesheet" href="css/admin.css" />
-    <link rel="stylesheet" type="text/css" media="screen and (max-width:992px)" href="css/admin.mobile.css">
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-
 <body>
-    <!-- 布局容器 -->
-    <div class="layui-layout layui-layout-admin">
-
-        <!-- 头部 -->
-        <div id="header">
-            <header-component></header-component>
-        </div>
-
-        <!-- 遮罩层 -->
-        <div class="masked"></div>
-
-        <!-- 左侧菜单 -->
-        <div id="leftSlide">
-            <leftslide-component></leftslide-component>
-        </div>
-
-        <!-- 主体 -->
-        <div class="layui-body">
-            <!-- 主要内容 -->
-            <div class="container">
-                <blockquote class="layui-elem-quote hide-wap"><span style="color:#FF5722">超级管理员</span>
-                    <p>E-Bank Service 商户管理平台欢迎您！</p>
-                </blockquote>
-
-                <fieldset class="layui-elem-field mt10 layui-field-res">
-                    <legend>汇总</legend>
-                    <div class="layui-field-box">
-                        <table class="layui-table" lay-skin="nob">
-                            <tbody>
-                                <tr>
-                                    <td>账户余额<span class="layui-field-bd  price">1800.0000</span></td>
-                                </tr>
-                                <tr>
-                                    <td>收银总金额<span class="layui-field-bd price">1200.0000</span></td>
-                                    <td>收银总手续费<span class="layui-field-bd price">1200.00</span></td>
-                                </tr>
-                                <tr>
-                                    <td>提现总金额<span class="layui-field-bd price">1200.0000</span></td>
-                                    <td>提现总手续费<span class="layui-field-bd price">1200.0000</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </fieldset>
-
-                <fieldset class="layui-elem-field mt10  layui-field-res">
-                    <legend>统计图</legend>
-                    <div class="layui-field-box box-main">
-                        <div id="main"></div>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
-
-    </div>
-    <!-- 可不引入 -->
-    <script type="text/javascript" src="js/vue.min.js"></script>
-
-    <script type="text/javascript" src="layui/layui.js"></script>
-    <script type="text/javascript" src="js/fastclick.js"></script>
-    <script type="text/javascript" src="js/echarts.common.min.js"></script>
-    <script type="text/javascript" src="js/admin.js"></script>
-    <script>
-        layui.use(['jquery', 'layer'], function () {
-            var $ = layui.jquery,
-                layer = layui.layer
-            $(function () {
-                FastClick.attach(document.body);
-            });
+ 
+<button class="layui-btn" id="getCheckedData">获得表格选中行</button>
+<table id="grid" lay-filter="grid"></table>
+ 
+<script src="__PUBLIC__/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+ 
+<script>
+    layui.use(['table', 'layer', 'element', 'jquery', 'form'], function (table, layer, element, $, form) {
+        var jsonData = [{
+            id: 1,
+            city: 20000,
+        }, {
+            id: 2,
+            city: 20001
+        }];
+ 
+        // 监听修改update到表格中
+        form.on('select(testSelect)', function (data) {
+            debugger;
+            var elem = $(data.elem);
+            var trElem = elem.parents('tr');
+            var tableData = table.cache['grid'];
+            // 更新到表格的缓存数据中，才能在获得选中行等等其他的方法中得到更新之后的值
+            tableData[trElem.data('index')][elem.attr('name')] = data.value;
+            // 其他的操作看需求 TODO
         });
-    </script>
-
-    <script>
-        var myChart = echarts.init(document.getElementById('main'));
-
-        var option = {
-            tooltip: {
-                trigger: 'axis'
+        
+        var tableIns = table.render({
+            elem: '#grid',
+            width: 600,
+            height: 300,
+            data: jsonData,
+            done: function (res, curr, count) {
+                count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
+                layui.each($('select'), function (index, item) {
+                    var elem = $(item);
+                    elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
+                });
+                form.render();
             },
-            legend: {
-                data: ['收银总金额', '收银总手续费', '提现总金额', '提现总手续费']
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['2017-01', '2017-02', '2017-03', '2017-04', '2017-05', '2017-06', '2017-07']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
+            size: 'lg',
+            cols: [[ //表头
+                {type: 'checkbox', fixed: true,},
+                {field: 'id', title: 'ID', fixed: true,},
                 {
-                    name: '收银总金额',
-                    type: 'line',
-                    data: [35.00, 40.00, 39.00, 22.00, 78.00, 43.00, 90.00, 52.00, 45.00, 65.00]
-                }, {
-                    name: '收银总手续费',
-                    type: 'line',
-                    data: [6.00, 9.00, 1.00, 7.00, 3.00, 5.00, 2.00, 8.00, 4.00, 10.00]
-                }, {
-                    name: '提现总金额',
-                    type: 'line',
-                    data: [9.00, 6.00, 1.00, 5.00, 3.00, 8.00, 2.00, 10.00, 4.00, 7.00]
-                },
-                {
-                    name: '提现总手续费',
-                    type: 'line',
-                    data: [9.00, 6.00, 1.00, 5.00, 3.00, 8.00, 2.00, 10.00, 4.00, 7.00]
-                }]
-        };
-
-        myChart.setOption(option);
-
-    </script>
-
+                    field: 'city',
+                    title: '城市',
+                    align: 'center',
+                    width: 200,
+                    templet: function (d) {
+                        // 模板的实现方式也是多种多样，这里简单返回固定的
+                        return '<select name="city" lay-filter="testSelect" lay-verify="required" data-value="' + d.city + '" >\n' +
+                            '        <option value=""></option>\n' +
+                            '        <option value="18000">北京</option>\n' +
+                            '        <option value="20000">上海</option>\n' +
+                            '        <option value="20001">广州</option>\n' +
+                            '        <option value="20002">深圳</option>\n' +
+                            '        <option value="20003">杭州</option>\n' +
+                            '      </select>';
+                    }
+                }
+            ]]
+        });
+    });
+</script>
+ 
 </body>
-
 </html>
+--------------------- 
+作者：MrLiber 
+来源：CSDN 
+原文：https://blog.csdn.net/MrLiber/article/details/83272934 
+版权声明：本文为博主原创文章，转载请附上博文链接！
